@@ -26,7 +26,7 @@ public class SecurityConfig {
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
     }
-//
+
     @Bean
     public AuthenticationManager authenticationManagerBean (AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
