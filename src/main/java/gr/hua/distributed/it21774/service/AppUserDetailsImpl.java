@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 public class AppUserDetailsImpl implements UserDetails {
 
-    // Define fields
 
     private Long id;
 
@@ -30,11 +29,10 @@ public class AppUserDetailsImpl implements UserDetails {
 
     private String lastName;
 
-    private int afm;
+    private Long afm;
 
-    private int amka;
+    private Long amka;
 
-    // Constructor
 
     public AppUserDetailsImpl(Long id,
                               String username,
@@ -43,8 +41,8 @@ public class AppUserDetailsImpl implements UserDetails {
                               String email,
                               String firstName,
                               String lastName,
-                              int afm,
-                              int amka) {
+                              Long afm,
+                              Long amka) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -106,11 +104,11 @@ public class AppUserDetailsImpl implements UserDetails {
         return lastName;
     }
 
-    public int getAfm() {
+    public Long getAfm() {
         return afm;
     }
 
-    public int getAmka() {
+    public Long getAmka() {
         return amka;
     }
 

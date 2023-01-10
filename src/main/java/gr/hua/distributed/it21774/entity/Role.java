@@ -8,8 +8,6 @@ import javax.persistence.*;
 @Table(name = "role")
 public class Role {
 
-    // Define fields
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

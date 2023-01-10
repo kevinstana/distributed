@@ -13,8 +13,13 @@ import javax.transaction.Transactional;
 @Service
 public class AppUserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
     AppUserRepository appUserRepository;
+
+    @Autowired
+    public AppUserDetailsServiceImpl(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -56,11 +56,11 @@ public class AppUser {
     @NotNull
     //@Size(min = 9, max = 9)
     @Column(name = "afm")
-    private Integer afm;
+    private Long afm;
 
     @NotNull
     @Column(name = "amka")
-    private Integer amka;
+    private Long amka;
 
     @Column(name = "answer")
     private String answer;
@@ -95,8 +95,8 @@ public class AppUser {
                    String email,
                    String firstName,
                    String lastName,
-                   Integer afm,
-                   Integer amka) {
+                   Long afm,
+                   Long amka) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -154,19 +154,19 @@ public class AppUser {
         this.email = email;
     }
 
-    public Integer getAfm() {
+    public Long getAfm() {
         return afm;
     }
 
-    public void setAfm(Integer afm) {
+    public void setAfm(Long afm) {
         this.afm = afm;
     }
 
-    public Integer getAmka() {
+    public Long getAmka() {
         return amka;
     }
 
-    public void setAmka(Integer amka) {
+    public void setAmka(Long amka) {
         this.amka = amka;
     }
 
