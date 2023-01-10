@@ -8,17 +8,17 @@ public class CreateContractRequest {
     // Define fields
 
     // Contains the afm-s of the involved parties
-    private Set<Integer> afm = new HashSet<>();
+    private Set<Long> afm = new HashSet<>();
 
     private String text;
 
     // Getters / Setters
 
-    public Set<Integer> getAfm() {
+    public Set<Long> getAfm() {
         return afm;
     }
 
-    public void setAfm(Set<Integer> afm) {
+    public void setAfm(Set<Long> afm) {
         this.afm = afm;
     }
 
