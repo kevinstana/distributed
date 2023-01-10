@@ -16,9 +16,9 @@ public class PrefilledUserFormResponse {
 
     private Set<String> role;
 
-    private Long afm;
+    private int afm;
 
-    private Long amka;
+    private int amka;
 
     public PrefilledUserFormResponse() {
     }
@@ -29,8 +29,8 @@ public class PrefilledUserFormResponse {
                                      String firstName,
                                      String lastName,
                                      Set<String> role,
-                                     Long afm,
-                                     Long amka) {
+                                     int afm,
+                                     int amka) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -89,19 +89,19 @@ public class PrefilledUserFormResponse {
         this.role = role;
     }
 
-    public Long getAfm() {
+    public int getAfm() {
         return afm;
     }
 
-    public void setAfm(Long afm) {
+    public void setAfm(int afm) {
         this.afm = afm;
     }
 
-    public Long getAmka() {
+    public int getAmka() {
         return amka;
     }
 
-    public void setAmka(Long amka) {
+    public void setAmka(int amka) {
         this.amka = amka;
     }
 }

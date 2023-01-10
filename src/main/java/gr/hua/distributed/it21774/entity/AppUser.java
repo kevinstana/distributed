@@ -2,6 +2,8 @@ package gr.hua.distributed.it21774.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -54,11 +56,11 @@ public class AppUser {
     @NotNull
     //@Size(min = 9, max = 9)
     @Column(name = "afm")
-    private Long afm;
+    private Integer afm;
 
     @NotNull
     @Column(name = "amka")
-    private Long amka;
+    private Integer amka;
 
     @Column(name = "answer")
     private String answer;
@@ -93,8 +95,8 @@ public class AppUser {
                    String email,
                    String firstName,
                    String lastName,
-                   Long afm,
-                   Long amka) {
+                   Integer afm,
+                   Integer amka) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -152,19 +154,19 @@ public class AppUser {
         this.email = email;
     }
 
-    public Long getAfm() {
+    public Integer getAfm() {
         return afm;
     }
 
-    public void setAfm(Long afm) {
+    public void setAfm(Integer afm) {
         this.afm = afm;
     }
 
-    public Long getAmka() {
+    public Integer getAmka() {
         return amka;
     }
 
-    public void setAmka(Long amka) {
+    public void setAmka(Integer amka) {
         this.amka = amka;
     }
 

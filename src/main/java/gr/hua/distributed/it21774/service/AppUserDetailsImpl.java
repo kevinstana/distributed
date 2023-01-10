@@ -30,9 +30,9 @@ public class AppUserDetailsImpl implements UserDetails {
 
     private String lastName;
 
-    private Long afm;
+    private int afm;
 
-    private Long amka;
+    private int amka;
 
     // Constructor
 
@@ -43,8 +43,8 @@ public class AppUserDetailsImpl implements UserDetails {
                               String email,
                               String firstName,
                               String lastName,
-                              Long afm,
-                              Long amka) {
+                              int afm,
+                              int amka) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -106,11 +106,11 @@ public class AppUserDetailsImpl implements UserDetails {
         return lastName;
     }
 
-    public Long getAfm() {
+    public int getAfm() {
         return afm;
     }
 
-    public Long getAmka() {
+    public int getAmka() {
         return amka;
     }
 

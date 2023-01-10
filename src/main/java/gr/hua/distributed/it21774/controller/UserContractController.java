@@ -111,9 +111,9 @@ public class UserContractController {
         Contract contract = new Contract(text, dateCreated, "", "");
 
         // Associate contract to users
-        Set<Long> afm = createContractRequest.getAfm();
+        Set<Integer> afm = createContractRequest.getAfm();
 
-        for (Long tempAfm : afm) {
+        for (Integer tempAfm : afm) {
 
             AppUser appUser2;
 
@@ -128,7 +128,7 @@ public class UserContractController {
             }
         }
 
-        for (Long tempAfm : afm) {
+        for (Integer tempAfm : afm) {
             AppUser appUser3 = appUserRepository.findByAfm(tempAfm).get();
             contract.addAppUsers(appUser3);
         }

@@ -16,9 +16,9 @@ public class SignupOrUpdateRequest {
 
     private String lastName;
 
-    private Long afm;
+    private int afm;
 
-    private Long amka;
+    private int amka;
 
     public String getUsername() {
         return username;
@@ -67,19 +67,19 @@ public class SignupOrUpdateRequest {
         this.lastName = lastName;
     }
 
-    public Long getAfm() {
+    public int getAfm() {
         return afm;
     }
 
-    public void setAfm(Long afm) {
+    public void setAfm(int afm) {
         this.afm = afm;
     }
 
-    public Long getAmka() {
+    public int getAmka() {
         return amka;
     }
 
-    public void setAmka(Long amka) {
+    public void setAmka(int amka) {
         this.amka = amka;
     }
 }
