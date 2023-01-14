@@ -5,14 +5,10 @@ import java.util.Set;
 
 public class CreateContractRequest {
 
-    // Define fields
-
-    // Contains the afm-s of the involved parties
+    // Contains the afms of the involved parties
     private Set<Long> afm = new HashSet<>();
 
     private String text;
-
-    // Getters / Setters
 
     public Set<Long> getAfm() {
         return afm;

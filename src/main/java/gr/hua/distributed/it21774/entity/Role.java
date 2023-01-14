@@ -11,7 +11,8 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    @JsonIgnore
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
@@ -26,11 +27,11 @@ public class Role {
         this.role = role;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

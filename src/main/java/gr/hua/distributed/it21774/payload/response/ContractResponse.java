@@ -10,7 +10,7 @@ public class ContractResponse {
 
     private String dateCreated;
 
-    private String dateConfirmed;
+    private String dateApproved;
 
     private String status;
 
@@ -21,12 +21,12 @@ public class ContractResponse {
 
     public ContractResponse(String text,
                             String dateCreated,
-                            String dateConfirmed,
+                            String dateApproved,
                             String status,
                             List<String> membersAndAnswers) {
         this.text = text;
         this.dateCreated = dateCreated;
-        this.dateConfirmed = dateConfirmed;
+        this.dateApproved = dateApproved;
         this.status = status;
         this.membersAndAnswers = membersAndAnswers;
     }
@@ -47,12 +47,12 @@ public class ContractResponse {
         this.dateCreated = dateCreated;
     }
 
-    public String getDateConfirmed() {
-        return dateConfirmed;
+    public String getDateApproved() {
+        return dateApproved;
     }
 
-    public void setDateConfirmed(String dateConfirmed) {
-        this.dateConfirmed = dateConfirmed;
+    public void setDateApproved(String dateApproved) {
+        this.dateApproved = dateApproved;
     }
 
     public String getStatus() {

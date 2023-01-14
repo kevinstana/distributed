@@ -44,16 +44,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/signin").permitAll()
-                .antMatchers("/api/auth/signup/").hasRole("ADMIN")
-                .antMatchers("/appUsers/{id}/contract/").hasAnyRole("LAWYER", "CLIENT", "ADMIN")
-                .anyRequest().authenticated();
-
+        http.cors().and().csrf()
+                    .disable()
+                    .exceptionHandling()
+                    .authenticationEntryPoint(unauthorizedHandler)
+                .and()
+                    .sessionManagement()
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .authorizeRequests()
+                        .antMatchers("/login").permitAll()
+                        .antMatchers("/logout").authenticated()
+                        .antMatchers("/usersall").hasRole("ADMIN")
+                        .antMatchers("/registerUser").hasRole("ADMIN")
+                        .antMatchers("/updateUser").hasRole("ADMIN")
+                        .antMatchers("/users/{id}/contract").hasAnyRole("LAWYER", "CLIENT")
+                    .anyRequest()
+                        .authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }

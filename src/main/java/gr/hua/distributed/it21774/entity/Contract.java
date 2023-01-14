@@ -1,11 +1,9 @@
 package gr.hua.distributed.it21774.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import gr.hua.distributed.it21774.repository.AppUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,8 +26,8 @@ public class Contract {
     @Column(name = "date_created")
     private String dateCreated;
 
-    @Column(name = "date_confirmed")
-    private String dateConfirmed;
+    @Column(name = "date_approved")
+    private String dateApproved;
 
     @Column(name = "status")
     private String status;
@@ -40,8 +38,9 @@ public class Contract {
                            CascadeType.MERGE,
                            CascadeType.PERSIST,
                            CascadeType.REFRESH })
-    @JsonManagedReference
+    //@JsonManagedReference
     //@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
+    @JsonIgnore
     private List<AppUser> appUser;
 
     public Contract() {
@@ -49,11 +48,11 @@ public class Contract {
 
     public Contract(String text,
                     String dateCreated,
-                    String dateConfirmed,
+                    String dateApproved,
                     String status) {
         this.text = text;
         this.dateCreated = dateCreated;
-        this.dateConfirmed = dateConfirmed;
+        this.dateApproved = dateApproved;
         this.status = status;
     }
 
@@ -81,12 +80,12 @@ public class Contract {
         this.dateCreated = dateCreated;
     }
 
-    public String getDateConfirmed() {
-        return dateConfirmed;
+    public String getDateApproved() {
+        return dateApproved;
     }
 
-    public void setDateConfirmed(String dateConfirmed) {
-        this.dateConfirmed = dateConfirmed;
+    public void setDateApproved(String dateApproved) {
+        this.dateApproved = dateApproved;
     }
 
     public String getStatus() {
@@ -114,7 +113,7 @@ public class Contract {
         this.appUser.add(appUser);
 
         appUser.setContract(this);
-        appUser.setAnswer("no");
+        appUser.setAnswer("No");
     }
 
     public void detachUsers() {

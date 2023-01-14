@@ -1,5 +1,6 @@
 package gr.hua.distributed.it21774.config;
 
+import gr.hua.distributed.it21774.entity.AppUser;
 import gr.hua.distributed.it21774.service.AppUserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -7,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -26,14 +30,33 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
+                .claim("id", userPrincipal.getId().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
+
+
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(jwtSecret)
+                            .parseClaimsJws(token)
+                            .getBody()
+                            .getSubject();
+    }
+
+    public Long getUserIdFromJwt(HttpServletRequest request) {
+
+        String jwt = parseJwt(request);
+
+        String payload = Jwts.parser().setSigningKey("bezKoderSecretKey")
+                .parseClaimsJws(jwt).getBody().toString();
+
+        String[] payloadToPieces = payload.split(",");
+        String[] payloadId = payloadToPieces[1].split("=");
+
+        return Long.parseLong(payloadId[1]);
     }
 
     public boolean validateJwtToken(String authToken) {
@@ -55,5 +78,14 @@ public class JwtUtils {
         return false;
     }
 
+    private String parseJwt(HttpServletRequest request) {
+        String headerAuth = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7, headerAuth.length());
+        }
+
+        return null;
+    }
 }
 

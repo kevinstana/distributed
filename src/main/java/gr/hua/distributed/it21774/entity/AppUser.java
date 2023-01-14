@@ -74,7 +74,7 @@ public class AppUser {
     @JoinTable(	name = "app_user_role",
             joinColumns = @JoinColumn(name = "app_user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @JsonBackReference
+    //@JsonBackReference
     private Set<Role> roles = new HashSet<>();
 
     // lazy fetch causes json problems
