@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .and()
                     .authorizeRequests()
                         .antMatchers("/login").permitAll()
-                        .antMatchers("/logout").authenticated()
+                        //.antMatchers("/logout").authenticated()
                         .antMatchers("/usersall").hasRole("ADMIN")
                         .antMatchers("/registerUser").hasRole("ADMIN")
                         .antMatchers("/updateUser").hasRole("ADMIN")

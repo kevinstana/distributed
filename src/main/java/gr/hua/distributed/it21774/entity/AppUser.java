@@ -95,6 +95,7 @@ public class AppUser {
                    String email,
                    String firstName,
                    String lastName,
+                   Set<Role> roles,
                    Long afm,
                    Long amka) {
         this.username = username;
@@ -102,6 +103,7 @@ public class AppUser {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.roles = roles;
         this.afm = afm;
         this.amka = amka;
     }
@@ -195,14 +197,14 @@ public class AppUser {
     }
 
     public void setUpdates(AppUser appUser, SignupOrUpdateRequest signupOrUpdateRequest) {
-        appUser.setUsername(signupOrUpdateRequest.getUsername());
-        appUser.setEmail(signupOrUpdateRequest.getEmail());
-        appUser.setFirstName(signupOrUpdateRequest.getFirstName());
-        appUser.setLastName(signupOrUpdateRequest.getLastName());
-        appUser.setAfm(signupOrUpdateRequest.getAfm());
-        appUser.setAmka(signupOrUpdateRequest.getAmka());
+        this.username = signupOrUpdateRequest.getUsername();
+        this.email = signupOrUpdateRequest.getEmail();
+        this.firstName = signupOrUpdateRequest.getFirstName();
+        this.lastName = signupOrUpdateRequest.getLastName();
+        this.afm = signupOrUpdateRequest.getAfm();
+        this.amka = signupOrUpdateRequest.getAmka();
         if (signupOrUpdateRequest.getPassword() != null) {
-            appUser.setPassword(signupOrUpdateRequest.getPassword());
+            this.password = signupOrUpdateRequest.getPassword();
         }
     }
 }

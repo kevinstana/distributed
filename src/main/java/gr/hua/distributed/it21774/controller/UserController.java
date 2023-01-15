@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -95,7 +94,7 @@ public class UserController {
         if (appUserRepository.existsByUsername(signUpOrUpdateRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken: "
+                    .body(new MessageResponse("Error: Username is already in use: "
                             + signUpOrUpdateRequest.getUsername()));
         }
 
@@ -120,21 +119,32 @@ public class UserController {
                             + signUpOrUpdateRequest.getAmka()));
         }
 
+
+        Set<Role> roles;
+
+        try {
+            roles = assignRoles(signUpOrUpdateRequest.getRole());
+        }
+        catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse(e.getMessage()));
+        }
+
         // Create new user's account
         AppUser appUser = new AppUser(signUpOrUpdateRequest.getUsername(),
                 encoder.encode(signUpOrUpdateRequest.getPassword()),
                 signUpOrUpdateRequest.getEmail(),
                 signUpOrUpdateRequest.getFirstName(),
                 signUpOrUpdateRequest.getLastName(),
+                roles,
                 signUpOrUpdateRequest.getAfm(),
                 signUpOrUpdateRequest.getAmka());
 
-        appUser.setRoles(assignRoles(signUpOrUpdateRequest.getRole()));
         appUser.setId(0L);
         appUserRepository.save(appUser);
 
         return ResponseEntity.ok()
-                .body(new MessageResponse("User registered successfully!"));
+                .body(new MessageResponse("User registered successfully"));
     }
 
     @GetMapping("/updateUser/{id}")
@@ -148,7 +158,7 @@ public class UserController {
         } catch (NoSuchElementException e) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("User does not exist."));
+                    .body(new MessageResponse("User does not exist"));
         }
 
         Set<Role> roles = appUser.getRoles();
@@ -187,7 +197,7 @@ public class UserController {
                 && !(appUser.getUsername()).equals(signUpOrUpdateRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken: "
+                    .body(new MessageResponse("Error: Username is already in use: "
                             + signUpOrUpdateRequest.getUsername()));
         }
 
@@ -215,8 +225,17 @@ public class UserController {
                             + signUpOrUpdateRequest.getAmka()));
         }
 
+        Set<Role> roles;
+
+        try {
+            roles = assignRoles(signUpOrUpdateRequest.getRole());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse(e.getMessage()));
+        }
+
         appUser.setUpdates(appUser, signUpOrUpdateRequest);
-        appUser.setRoles(assignRoles(signUpOrUpdateRequest.getRole()));
+        appUser.setRoles(roles);
         appUserRepository.save(appUser);
 
         return ResponseEntity.ok(new MessageResponse("User updated"));
@@ -242,26 +261,23 @@ public class UserController {
                     .body(new MessageResponse("User does not exist"));
         }
 
+        for (Role tempRole : appUser.getRoles()) {
+            if (tempRole.getRole().toString().equals("ROLE_ADMIN")) {
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Can't delete admin"));
+            }
+        }
+
         appUserRepository.deleteById(id);
 
         return ResponseEntity.ok(new MessageResponse("User deleted"));
     }
 
-    private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7, headerAuth.length());
-        }
-
-        return null;
-    }
-
-    public Set<Role> assignRoles(Set<String> roles) {
+    public Set<Role> assignRoles(Set<String> roles) throws RuntimeException {
 
         Set<Role> assignRoles = new HashSet<>();
 
-        if (roles == null) {
+        if (roles.isEmpty()) {
             Role userRole = roleRepository.findByRole(ERole.ROLE_CLIENT)
                     .orElseThrow(() -> new RuntimeException("Error: Role " + ERole.ROLE_CLIENT + " is not found"));
             assignRoles.add(userRole);
@@ -286,10 +302,13 @@ public class UserController {
                         assignRoles.add(adminRole);
 
                         break;
-                    default:
+                    case "client":
                         Role clientRole = roleRepository.findByRole(ERole.ROLE_CLIENT)
                                 .orElseThrow(() -> new RuntimeException("Error: Role " + role + " is not found"));
                         assignRoles.add(clientRole);
+                        break;
+                    default:
+                        throw new RuntimeException("Error: Role " + role + " is not found");
                 }
             });
         }

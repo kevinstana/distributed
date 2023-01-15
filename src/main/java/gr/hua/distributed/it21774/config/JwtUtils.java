@@ -1,6 +1,5 @@
 package gr.hua.distributed.it21774.config;
 
-import gr.hua.distributed.it21774.entity.AppUser;
 import gr.hua.distributed.it21774.service.AppUserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -47,7 +45,6 @@ public class JwtUtils {
     public Long getUserIdFromJwt(HttpServletRequest request) {
 
         String jwt = parseJwt(request);
-
         String payload = Jwts.parser().setSigningKey("bezKoderSecretKey")
                 .parseClaimsJws(jwt).getBody().toString();
 
