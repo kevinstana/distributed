@@ -234,6 +234,8 @@ public class UserController {
                     .body(new MessageResponse(e.getMessage()));
         }
 
+        signUpOrUpdateRequest.setPassword(encoder.encode(signUpOrUpdateRequest.getPassword()));
+
         appUser.setUpdates(appUser, signUpOrUpdateRequest);
         appUser.setRoles(roles);
         appUserRepository.save(appUser);
