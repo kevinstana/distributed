@@ -57,7 +57,7 @@ public class ContractController {
 
         if (requestingUserId != id) {
             return ResponseEntity.badRequest()
-                    .body("You can't view another user's contract");
+                    .body(new MessageResponse("You can't view another user's contract"));
         }
 
         AppUser requestingUser = appUserRepository.findById(requestingUserId).get();
@@ -144,7 +144,8 @@ public class ContractController {
 
         contractRepository.save(contract);
 
-        return ResponseEntity.ok("Contract Created");
+        return ResponseEntity.ok()
+                .body(new MessageResponse("Contract Created"));
     }
 
     @PutMapping("/contracts/{id}")
@@ -163,7 +164,7 @@ public class ContractController {
 
         if (contract.getStatus().equals("Approved")) {
             return ResponseEntity.badRequest()
-                    .body("You have already approved this contract");
+                    .body(new MessageResponse("You have already approved this contract"));
         }
 
         List<AppUser> appUsers = contract.getAppUser();
@@ -187,7 +188,7 @@ public class ContractController {
         contract.setStatus("Approved");
         contractRepository.save(contract);
 
-        return ResponseEntity.ok("Contract Approved");
+        return ResponseEntity.ok().body(new MessageResponse("Contract Approved"));
     }
 
     @DeleteMapping("/contracts/{id}")
@@ -215,7 +216,8 @@ public class ContractController {
                     .body(new MessageResponse("Cannot delete active contract"));
         }
 
-        return ResponseEntity.ok("Contract Deleted");
+        return ResponseEntity.ok()
+                .body(new MessageResponse("Contract Deleted"));
     }
 
     @DeleteMapping("/forceDeleteContract/{id}")
@@ -228,16 +230,19 @@ public class ContractController {
             contract = contractRepository.findById(id).get();
         }
         catch (EmptyResultDataAccessException e) {
-            return ResponseEntity.badRequest().body("Contract does not exist");
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Contract does not exist"));
         }
         catch (NoSuchElementException e) {
-            return ResponseEntity.badRequest().body("Contract does not exist");
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Contract does not exist"));
         }
 
         contract.detachUsers();
         contractRepository.deleteById(id);
 
-        return ResponseEntity.ok().body("Contract deleted");
+        return ResponseEntity.ok()
+                .body(new MessageResponse("Contract deleted"));
     }
 
     @PutMapping("/users/{id}/contract")
@@ -249,7 +254,7 @@ public class ContractController {
 
         if (requestingUserId != id) {
             return ResponseEntity.badRequest()
-                    .body("You can't answer another user's contract");
+                    .body(new MessageResponse("You can't answer another user's contract"));
         }
 
         AppUser requestingUser = appUserRepository.findById(id).get();

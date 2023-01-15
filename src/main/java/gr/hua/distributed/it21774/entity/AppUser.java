@@ -3,7 +3,7 @@ package gr.hua.distributed.it21774.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import gr.hua.distributed.it21774.payload.request.SignupOrUpdateRequest;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -194,4 +194,15 @@ public class AppUser {
         this.contract = contract;
     }
 
+    public void setUpdates(AppUser appUser, SignupOrUpdateRequest signupOrUpdateRequest) {
+        appUser.setUsername(signupOrUpdateRequest.getUsername());
+        appUser.setEmail(signupOrUpdateRequest.getEmail());
+        appUser.setFirstName(signupOrUpdateRequest.getFirstName());
+        appUser.setLastName(signupOrUpdateRequest.getLastName());
+        appUser.setAfm(signupOrUpdateRequest.getAfm());
+        appUser.setAmka(signupOrUpdateRequest.getAmka());
+        if (signupOrUpdateRequest.getPassword() != null) {
+            appUser.setPassword(signupOrUpdateRequest.getPassword());
+        }
+    }
 }
