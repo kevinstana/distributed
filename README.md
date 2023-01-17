@@ -181,3 +181,40 @@ You should get the following result
   4 | 444444444 | 44444444444 |        | lawyer_two@gmail.com | Lawyer     | Two       | $2a$10$p2oUdxRL37qW90H19cTeLOGQOzqEStainL5Bfw4TbItK1e/vrkcTe | lawyer_two |
   5 | 555555555 | 55555555555 |        | client_one@gmail.com | Client     | One       | $2a$10$sgJXKB4iLZhZm8pPD.pDGeILT/91n.e.YU4uzrly7ghnkOd9Obl5m | client_one |
   6 | 666666666 | 66666666666 |        | client_two@gmail.com | Client     | Two       | $2a$10$GZ34zUWKfspkxt218jvHT.bB4leHBc4DfEvc.rrmPbFNDZXsIIQie | client_two |
+  
+Now you can go to the "Group 1 Actions" folder, open the "Lawyer 1" or "Lawyer 2" folder, run the login request first and then create a contract.  
+In the path for the "Create Contract" request, the number after users/ is for the lawyer id. By default it is the id of lawyer 1 (id=3) or the  id of lawyer 2 (is=4), depending on who you choose.  
+The contract has the afms of the 2 lawyers and the 2 clients. It also has a text (for example that the clients want a divorce)  
+  
+![Screenshot (747)](https://user-images.githubusercontent.com/122367928/212924052-04784bfc-d27c-4bfa-85cf-37d1881d556f.png)
+![Screenshot (750)](https://user-images.githubusercontent.com/122367928/212925315-726a51fa-9136-4d98-8a79-043d765cd133.png)
+  
+Now you can run the "Answer Contract" and the "Get Contract" requests  
+  
+![Screenshot (748)](https://user-images.githubusercontent.com/122367928/212924762-a281135c-e8a7-4134-8340-e5655b258d6f.png)
+![Screenshot (749)](https://user-images.githubusercontent.com/122367928/212924812-45273a14-3359-4a5d-8a2b-b5b4d85a2779.png)
+  
+You can check the database for the contract  
+```bash
+select * from contract;
+```
+  
+You should get the following result  
+ id | date_approved |    date_created     |   status    |                text                
+----|---------------|---------------------|-------------|------------------------------------
+  1 |               | 17/01/2023 16:22:58 | In Progress | This is a new contract for Group 1
+  
+The contract has also been associated with the users. Run  
+```bash
+select * from app_user;
+```
+  
+You should get the following result  
+ id |    afm    |    amka     | answer |        email         | first_name | last_name |                           password                           |  username  | contract_id 
+----|-----------|-------------|--------|----------------------|------------|-----------|--------------------------------------------------------------|------------|-------------       
+  1 | 111111111 | 11111111111 |        | admin@gmail.com      | Kevin      | Stana     | $2a$10$VwKas4ss8uuLL.YpbycfXeT52yMjOXMce3OJe9wotGL4MT/Juo7tS | admin      |
+  2 | 222222222 | 22222222222 |        | notary@gmail.com     | Notary     | Only One  | $2a$10$CO/q1dqq1r/pEumILzvIWu9Wjggcdx71PENhQ07U7KsO8xu7Jn.u6 | notary     |
+  4 | 444444444 | 44444444444 | No     | lawyer_two@gmail.com | Lawyer     | Two       | $2a$10$p2oUdxRL37qW90H19cTeLOGQOzqEStainL5Bfw4TbItK1e/vrkcTe | lawyer_two |           1        
+  6 | 666666666 | 66666666666 | No     | client_two@gmail.com | Client     | Two       | $2a$10$GZ34zUWKfspkxt218jvHT.bB4leHBc4DfEvc.rrmPbFNDZXsIIQie | client_two |           1        
+  5 | 555555555 | 55555555555 | No     | client_one@gmail.com | Client     | One       | $2a$10$sgJXKB4iLZhZm8pPD.pDGeILT/91n.e.YU4uzrly7ghnkOd9Obl5m | client_one |           1        
+  3 | 333333333 | 33333333333 | Yes    | lawyer_one@gmail.com | Lawyer     | One       | $2a$10$UqM2w57kQ3bS5j6lOxGstuG8m/duLVHQGCBZySENYdSoE3FD2pLM6 | lawyer_one |           1        
