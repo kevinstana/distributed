@@ -203,7 +203,7 @@ public class AppUser {
         this.lastName = signupOrUpdateRequest.getLastName();
         this.afm = signupOrUpdateRequest.getAfm();
         this.amka = signupOrUpdateRequest.getAmka();
-        if (signupOrUpdateRequest.getPassword() != null) {
+        if ( !signupOrUpdateRequest.getPassword().isEmpty()) {
             this.password = signupOrUpdateRequest.getPassword();
         }
     }

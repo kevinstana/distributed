@@ -96,7 +96,7 @@ public class ContractController {
 
         if (requestingUserId != id) {
             return ResponseEntity.badRequest()
-                    .body("You can't create another user's contract");
+                    .body(new MessageResponse("You can't create another user's contract"));
         }
 
         AppUser requestingUser = appUserRepository.findById(requestingUserId).get();

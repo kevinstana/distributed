@@ -234,7 +234,13 @@ public class UserController {
                     .body(new MessageResponse(e.getMessage()));
         }
 
-        signUpOrUpdateRequest.setPassword(encoder.encode(signUpOrUpdateRequest.getPassword()));
+        String newPassword = signUpOrUpdateRequest.getPassword();
+        if (!newPassword.isEmpty() && newPassword.length() >= 8) {
+            signUpOrUpdateRequest.setPassword(encoder.encode(newPassword));
+        }
+        else {
+            signUpOrUpdateRequest.setPassword("");
+        }
 
         appUser.setUpdates(appUser, signUpOrUpdateRequest);
         appUser.setRoles(roles);
