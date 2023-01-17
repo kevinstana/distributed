@@ -27,7 +27,7 @@ Import the folder to your IDE of choice
 4. Select directory to download the repository  
 5. Click "Clone" at the bottom right  
 ## Run a postgres database using docker
-Note: Use IntelliJ terminal after importing the project  
+Note: Use the IntelliJ terminal after importing the project  
 ### *Create database (with initial data)*
 ```bash
 docker run --name distributed_container --rm -e POSTGRES_PASSWORD=password -e POSTGRES_DB=it21774_distributed -h localhost -p 5432:5432 -v "$pwd"/assets/db:/docker-entrypoint-initdb.d -v pgdata14:/var/lib/postgresql/data -d postgres:14
