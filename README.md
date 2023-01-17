@@ -140,5 +140,5 @@ You can also use IntelliJ to view the database
 
   
 ## Using the application
-Since I haven't created a complete frontend at the moment, you will have to use Postman to make request to the REST API  
+Since I haven't created a complete frontend at the moment, you will have to use Postman to make requests to the REST API  
 That's why the Postman helper files are required  
