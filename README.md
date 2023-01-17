@@ -52,7 +52,7 @@ Now for the 2nd file
   
 1. From the left sidebar, choose "Collections"  
 2. Select "Import"  
-3. From the windows that appears, select "Files"  
+3. From the window that appears, select "Files"  
 4. Click on "Choose files"  
 5. Navigate to the directory you downloaded the repository and select "assets/postman/Distributed Ergasia.postman_collection.json"  
 6. Click on "Import" and that's it  
