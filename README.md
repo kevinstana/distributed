@@ -25,7 +25,7 @@ Import the folder to your IDE of choice
 2. From the top left select **File>New>Project from Version Control**  
 3. Paste the repository link in the "URL" field: **https://github.com/kevinstana/distributed**  
 4. Select directory to download the repository  
-5. Click "Clone" on the bottom right  
+5. Click "Clone" at the bottom right  
 ## Run a postgres database using docker
 Note: Use terminal from IntelliJ after importing the project  
 ### *Create database (with initial data)*
