@@ -131,7 +131,7 @@ You can also use IntelliJ to view the database
   
 5. In the window that appears, enter "postgres" as the username  
 6. Enter "password" as the password  
-7. Enter "it21774_distribued" as the database  
+7. Enter "it21774_distributed" as the database  
 8. Click on "Test Connection"  
 9. If the connection is successful, click "OK"  
   
