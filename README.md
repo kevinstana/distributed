@@ -142,3 +142,42 @@ You can also use IntelliJ to view the database
 ## Using the application
 Since I haven't created a complete frontend at the moment, you will have to use Postman to make requests to the REST API  
 That's why the Postman helper files are required  
+  
+Once the application is running, open Postman and go to the collection you imported, "Distributed Ergasia"  
+  
+First, click on on the "ADMIN" folder and run the "Login" request. Then run the "Create Notary" request to create a new notary account  
+Run the folder "Create Group 1" to create the 2 lawyers and the 2 clients   
+   
+I did't intialize this data in the database creation because it's satisfying to see the application work lol  
+  
+![Screenshot (742)](https://user-images.githubusercontent.com/122367928/212917396-02ab7c16-b241-4a30-b24a-58f702e2a1f4.png)
+  
+![Screenshot (746)](https://user-images.githubusercontent.com/122367928/212920691-bda86b02-8b16-45eb-9530-fe17a298ef2b.png)
+  
+![Screenshot (744)](https://user-images.githubusercontent.com/122367928/212917883-b23d676a-5ee3-47cc-bf9b-00ae678497b0.png)
+  
+If it hopefully works you will get this result  
+  
+![Screenshot (745)](https://user-images.githubusercontent.com/122367928/212918636-569b4a50-a549-4e18-8e34-c39306ac9ae7.png)
+  
+You can check the database to verify the data was added (if asked for password, enter "password")  
+```bash
+docker exec -it distributed_container psql -U postgres -W
+```
+```bash
+\c it21774_distributed
+```
+```bash
+select * from app_user;
+```
+  
+You should get the following result  
+  
+ id |    afm    |    amka     | answer |        email         | first_name | last_name |                           password                           |  username  | contract_id 
+----|-----------|-------------|--------|----------------------|------------|-----------|--------------------------------------------------------------|------------|-------------       
+  1 | 111111111 | 11111111111 |        | admin@gmail.com      | Kevin      | Stana     | $2a$10$VwKas4ss8uuLL.YpbycfXeT52yMjOXMce3OJe9wotGL4MT/Juo7tS | admin      |
+  2 | 222222222 | 22222222222 |        | notary@gmail.com     | Notary     | Only One  | $2a$10$CO/q1dqq1r/pEumILzvIWu9Wjggcdx71PENhQ07U7KsO8xu7Jn.u6 | notary     |
+  3 | 333333333 | 33333333333 |        | lawyer_one@gmail.com | Lawyer     | One       | $2a$10$UqM2w57kQ3bS5j6lOxGstuG8m/duLVHQGCBZySENYdSoE3FD2pLM6 | lawyer_one |
+  4 | 444444444 | 44444444444 |        | lawyer_two@gmail.com | Lawyer     | Two       | $2a$10$p2oUdxRL37qW90H19cTeLOGQOzqEStainL5Bfw4TbItK1e/vrkcTe | lawyer_two |
+  5 | 555555555 | 55555555555 |        | client_one@gmail.com | Client     | One       | $2a$10$sgJXKB4iLZhZm8pPD.pDGeILT/91n.e.YU4uzrly7ghnkOd9Obl5m | client_one |
+  6 | 666666666 | 66666666666 |        | client_two@gmail.com | Client     | Two       | $2a$10$GZ34zUWKfspkxt218jvHT.bB4leHBc4DfEvc.rrmPbFNDZXsIIQie | client_two |
