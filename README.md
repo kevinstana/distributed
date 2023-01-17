@@ -184,7 +184,7 @@ You should get the following result
   
 Now you can go to the "Group 1 Actions" folder, open the "Lawyer 1" or "Lawyer 2" folder, run the login request first and then create a contract.  
 In the path for the "Create Contract" request, the number after users/ is for the lawyer id. By default it is the id of lawyer 1 (id=3) or the  id of lawyer 2 (is=4), depending on who you choose.  
-The contract has the afms of the 2 lawyers and the 2 clients. It also has a text (for example that the clients want a divorce)  
+The contract has the afms (the afm must be a 9 digit integer) of the 2 lawyers and the 2 clients. It also has a text (for example that the clients want a divorce)  
   
 ![Screenshot (747)](https://user-images.githubusercontent.com/122367928/212924052-04784bfc-d27c-4bfa-85cf-37d1881d556f.png)
 ![Screenshot (750)](https://user-images.githubusercontent.com/122367928/212925315-726a51fa-9136-4d98-8a79-043d765cd133.png)
@@ -218,3 +218,43 @@ You should get the following result
   6 | 666666666 | 66666666666 | No     | client_two@gmail.com | Client     | Two       | $2a$10$GZ34zUWKfspkxt218jvHT.bB4leHBc4DfEvc.rrmPbFNDZXsIIQie | client_two |           1        
   5 | 555555555 | 55555555555 | No     | client_one@gmail.com | Client     | One       | $2a$10$sgJXKB4iLZhZm8pPD.pDGeILT/91n.e.YU4uzrly7ghnkOd9Obl5m | client_one |           1        
   3 | 333333333 | 33333333333 | Yes    | lawyer_one@gmail.com | Lawyer     | One       | $2a$10$UqM2w57kQ3bS5j6lOxGstuG8m/duLVHQGCBZySENYdSoE3FD2pLM6 | lawyer_one |           1        
+  
+Now you can run the login requests for the other lawyer and the clients (Client 1, Client 2), view the contract and answer it  
+  
+Once the contract is answered by all members, go to the "Notary" folder and login first. Run the "All Contracts" and the "Confirm Contract" request. The "Confirm Contract" takes the id of the contract as a path variable, in this case contract_id=1.  
+  
+![Screenshot (752)](https://user-images.githubusercontent.com/122367928/212928829-c5a86e5d-81df-4ef7-9ac0-896d408373c1.png)
+![Screenshot (753)](https://user-images.githubusercontent.com/122367928/212928877-9848f185-93b3-4b7c-bc22-841a9d4c2ae0.png)
+  
+You can check the database to verify the changes to the contract  
+```bash
+select * from contract;
+```
+  
+You should get the following result  
+  
+ id |    date_approved    |    date_created     |  status  |                text                
+----|---------------------|---------------------|----------|------------------------------------
+  1 | 17/01/2023 16:40:33 | 17/01/2023 16:22:58 | Approved | This is a new contract for Group 1
+  
+That's it pretty much for the notary, lawyers and clients. Now as the ADMIN you can delete contracts from the "Delete Contract" request providing the contract id .The contract must be approved by the notary to be deleted. If you want to delete a contract regardless of approval, use the "Force Delete Contract" request, providing the contract id to the path.  
+  
+![Screenshot (755)](https://user-images.githubusercontent.com/122367928/212932667-e3da6723-eb6a-44d9-9cf5-dfd7075fb914.png)
+  
+You can also update a user's details by running the "PUT Update User" request. You can run the "GET Update User" request first to view the current details. In both cases you have to add the id of the user you want to update to the path  
+  
+![Screenshot (756)](https://user-images.githubusercontent.com/122367928/212933907-9b45a1ee-3c30-4cf7-be24-6b0ba4bec162.png)
+![Screenshot (757)](https://user-images.githubusercontent.com/122367928/212933953-9958e45c-3497-452d-8eb1-3e23737acc63.png)
+  
+In the "PUT Update User Request", you can also change the password of the user. If you just give "" the password will stay the same  
+  
+To delete a user, run the "Detele User" request. You have to provide the user's id as a path variable. If the user is an ADMIN or has a contract "In Progress", the user will not be deleted  
+  
+![Screenshot (758)](https://user-images.githubusercontent.com/122367928/212935036-74fda6d6-4c2b-4f67-964e-dd5c4a7bb9df.png)
+  
+The "GET One User" request can be run by all users, just change the Bearer token to the token of the user that makes the request (make sure the user is logged in first for the token to be valid). The ADMIN can view the details of every user, whereas individual users can only view their own details  
+  
+The "Create User Generic" request allows you to create a new user, just make sure the roles are either "admin", "lawyer", "notary" or "client". The afm must be a 9 digit integer and the amka must be an 11 digit integer. If you don't provide any roles, the user is given the role of a client by default  
+  
+Now you can try to give wrong inputs for the user and contract ids in the paths of the request or the input fields (for example assign the role "afsdgasg" to a user) or you can create the users of the "Create Group 2" folder and run the requests in the "Group 2 Actions" folder  
+  
