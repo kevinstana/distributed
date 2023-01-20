@@ -47,13 +47,13 @@ public class UserController {
         this.jwtUtils = jwtUtils;
     }
 
-    @GetMapping("/usersall")
+    @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok().body(appUserRepository.findAll());
     }
 
-    @GetMapping("/usersall/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<?> getUser(HttpServletRequest request,
                                      @PathVariable Long id) {
 
@@ -120,7 +120,7 @@ public class UserController {
         }
 
 
-        Set<Role> roles;
+            Set<Role> roles;
 
         try {
             roles = assignRoles(signUpOrUpdateRequest.getRole());
@@ -235,7 +235,7 @@ public class UserController {
         }
 
         String newPassword = signUpOrUpdateRequest.getPassword();
-        if (!newPassword.isEmpty() && newPassword.length() >= 8) {
+        if (!(newPassword.isEmpty()) && (newPassword.length() >= 8)) {
             signUpOrUpdateRequest.setPassword(encoder.encode(newPassword));
         }
         else {

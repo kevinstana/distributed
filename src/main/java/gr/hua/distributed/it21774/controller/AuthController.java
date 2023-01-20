@@ -18,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,6 +65,8 @@ public class AuthController {
             List<String> roles = appUserDetails.getAuthorities().stream()
                     .map(item -> item.getAuthority())
                     .collect(Collectors.toList());
+
+            roles.replaceAll(noPrefixRole -> noPrefixRole.substring(5));
 
             JwtResponse myJwt = new JwtResponse(jwt,
                     appUserDetails.getId(),

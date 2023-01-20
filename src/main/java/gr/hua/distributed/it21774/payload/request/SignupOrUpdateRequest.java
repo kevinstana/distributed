@@ -1,5 +1,6 @@
 package gr.hua.distributed.it21774.payload.request;
 
+import java.util.List;
 import java.util.Set;
 
 public class SignupOrUpdateRequest {

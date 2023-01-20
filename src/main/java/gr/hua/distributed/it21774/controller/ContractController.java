@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 public class ContractController {
 
@@ -42,7 +43,7 @@ public class ContractController {
         this.jwtUtils = jwtUtils;
     }
 
-    @GetMapping("/contractsall")
+    @GetMapping("/contracts")
     @PreAuthorize("hasRole('ADMIN') or hasRole('NOTARY')")
     public List<Contract> getAllContracts() {
         return contractRepository.findAll();
@@ -118,8 +119,13 @@ public class ContractController {
         Contract contract = new Contract(text, dateCreated, "", "In Progress");
         contract.setId(0L);
 
-        // Associate contract to users
         Set<Long> afm = createContractRequest.getAfm();
+
+        // Check for duplicate afm
+        if (afm.size() < 4) {
+            return ResponseEntity.badRequest().body(new MessageResponse("The afms must be unique"));
+        }
+
         for (Long tempAfm : afm) {
 
             AppUser contractMember;
@@ -139,6 +145,7 @@ public class ContractController {
                         .body(new MessageResponse("Afm does not exist: " + tempAfm));
             }
 
+            // Associate contract to users
             contract.addAppUsers(contractMember);
         }
 
@@ -273,6 +280,24 @@ public class ContractController {
 
         requestingUser.setAnswer("Yes");
         appUserRepository.save(requestingUser);
+
+        Contract contract = requestingUser.getContract();
+        List<AppUser> contractMembers = contract.getAppUser();
+
+        /*
+        ΠΡΟΓΡΑΜΜΑΤΙΣΜΟΣ 1 incoming!!
+        */
+        int i = 0;
+        for (AppUser tempUser : contractMembers) {
+            if (tempUser.getAnswer().equals("Yes")) {
+                i += 1;
+            }
+        }
+
+        if (i == 4) {
+            contract.setStatus("Answered");
+            contractRepository.save(contract);
+        }
 
         return ResponseEntity.ok(new MessageResponse("You have answered successfully"));
     }
