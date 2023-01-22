@@ -1,9 +1,6 @@
 package gr.hua.distributed.it21774.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -38,8 +35,8 @@ public class Contract {
                            CascadeType.MERGE,
                            CascadeType.PERSIST,
                            CascadeType.REFRESH })
-    //@JsonManagedReference
-    //@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
+//    @JsonBackReference
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
     @JsonIgnore
     private List<AppUser> appUser;
 

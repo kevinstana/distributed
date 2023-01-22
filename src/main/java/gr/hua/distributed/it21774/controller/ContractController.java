@@ -49,6 +49,35 @@ public class ContractController {
         return contractRepository.findAll();
     }
 
+    @GetMapping("/contracts/{id}")
+    @PreAuthorize("hasRole('NOTARY')")
+    public ResponseEntity<?> getOneContract(@PathVariable Long id) {
+
+        Contract contract;
+
+        try {
+            contract = contractRepository.findById(id).get();
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Contract does not exist"));
+        }
+
+        List<String> membersAndAnswers = new ArrayList<>();
+        List<AppUser> users = contract.getAppUser();
+
+        for ( AppUser tempUser : users) {
+            membersAndAnswers.add(tempUser.getFirstName()
+                    + " " + tempUser.getLastName() + ": "
+                    +tempUser.getAnswer());
+        }
+
+        return ResponseEntity.ok(new ContractResponse(contract.getText(),
+                contract.getDateCreated(),
+                contract.getDateApproved(),
+                contract.getStatus(),
+                membersAndAnswers));
+    }
+
     @GetMapping("/users/{id}/contract")
     @PreAuthorize("hasRole('LAWYER') or hasRole('CLIENT')")
     public ResponseEntity<?> getUserContract(HttpServletRequest request,
@@ -78,6 +107,8 @@ public class ContractController {
                     + " " + tempUser.getLastName() + ": "
                     +tempUser.getAnswer());
         }
+
+        membersAndAnswers.add(requestingUser.getAnswer());
 
         return ResponseEntity.ok(new ContractResponse(contract.getText(),
                                                       contract.getDateCreated(),

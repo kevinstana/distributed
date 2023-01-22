@@ -193,36 +193,44 @@ public class UserController {
                     .body(new MessageResponse("User does not exist"));
         }
 
-        if (appUserRepository.existsByUsername(signUpOrUpdateRequest.getUsername())
-                && !(appUser.getUsername()).equals(signUpOrUpdateRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already in use: "
-                            + signUpOrUpdateRequest.getUsername()));
+        AppUser existingUser;
+
+        if(appUserRepository.existsByUsername(signUpOrUpdateRequest.getUsername())) {
+            existingUser = appUserRepository.findByUsername(signUpOrUpdateRequest.getUsername()).get();
+            if (existingUser.getId() != id) {
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Username is already in use: "
+                                + signUpOrUpdateRequest.getUsername()));
+            }
         }
 
-        if (appUserRepository.existsByEmail(signUpOrUpdateRequest.getEmail())
-                && !(appUser.getEmail()).equals(signUpOrUpdateRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use: "
-                            + signUpOrUpdateRequest.getEmail()));
+        if (appUserRepository.existsByEmail(signUpOrUpdateRequest.getEmail())) {
+            existingUser = appUserRepository.findByEmail(signUpOrUpdateRequest.getEmail()).get();
+            if (existingUser.getId() != id) {
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Email is already in use: "
+                                + signUpOrUpdateRequest.getEmail()));
+            }
         }
 
-        if (appUserRepository.existsByAfm(signUpOrUpdateRequest.getAfm())
-                && !((appUser.getAfm()) != signUpOrUpdateRequest.getAfm())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Afm is already in use: "
-                            + signUpOrUpdateRequest.getAfm()));
+        if (appUserRepository.existsByAfm(signUpOrUpdateRequest.getAfm())) {
+            existingUser = appUserRepository.findByAfm(signUpOrUpdateRequest.getAfm()).get();
+            if (existingUser.getId() != id) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Afm is already in use: "
+                                + signUpOrUpdateRequest.getAfm()));
+            }
         }
 
-        if (appUserRepository.existsByAmka(signUpOrUpdateRequest.getAmka())
-                && !((appUser.getAmka()) != signUpOrUpdateRequest.getAmka())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Amka is already in use: "
-                            + signUpOrUpdateRequest.getAmka()));
+        if (appUserRepository.existsByAmka(signUpOrUpdateRequest.getAmka())) {
+            existingUser = appUserRepository.findByAmka(signUpOrUpdateRequest.getAmka()).get();
+            if (existingUser.getId() != id) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Amka is already in use: "
+                                + signUpOrUpdateRequest.getAmka()));
+            }
         }
 
         Set<Role> roles;
