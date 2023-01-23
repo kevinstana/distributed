@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-distributed
 Project for Distributed Systems course
 =======
 # distributed
@@ -262,6 +260,8 @@ The "Create User Generic" request allows you to create a new user, just make sur
   
 Now you can try to give wrong inputs for the user and contract ids in the paths of the request or the input fields (for example assign the role "afsdgasg" to a user) or you can create the users of the "Create Group 2" folder and run the requests in the "Group 2 Actions" folder  
   
-# My face after failing all the other courses of the semester cause I spent all my time on this project #
-![3d-saul-saul-goodman2](https://user-images.githubusercontent.com/122367928/212941585-12b63312-bd07-4597-88c9-a04afe8c6e4b.gif)
->>>>>>> origin/master
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/122367928/214137078-c47ec9b9-458f-4fda-855e-4848cb06e32e.gif"/>
+</p>
+
+
