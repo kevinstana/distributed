@@ -226,7 +226,7 @@ Now you can run the login requests for the other lawyer and the clients (Client 
 Once the contract is answered by all members, go to the "Notary" folder and login first. Run the "All Contracts" and the "Confirm Contract" request. The "Confirm Contract" takes the id of the contract as a path variable, in this case contract_id=1.  
   
 ![Screenshot (752)](https://user-images.githubusercontent.com/122367928/212928829-c5a86e5d-81df-4ef7-9ac0-896d408373c1.png)
-![Screenshot (753)](https://user-images.githubusercontent.com/122367928/212928877-9848f185-93b3-4b7c-bc22-841a9d4c2ae0.png)
+![Screenshot (767)](https://user-images.githubusercontent.com/122367928/214140745-11e09108-e068-4f30-9f69-75e98cfa76cd.png)
   
 You can check the database to verify the changes to the contract  
 ```bash
