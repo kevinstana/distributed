@@ -2,12 +2,16 @@ package gr.hua.distributed.it21774.controller;
 
 import gr.hua.distributed.it21774.config.JwtUtils;
 import gr.hua.distributed.it21774.entity.AppUser;
+import gr.hua.distributed.it21774.entity.Contract;
 import gr.hua.distributed.it21774.entity.ERole;
 import gr.hua.distributed.it21774.entity.Role;
+import gr.hua.distributed.it21774.payload.request.CreateContractRequest;
 import gr.hua.distributed.it21774.payload.request.SignupOrUpdateRequest;
+import gr.hua.distributed.it21774.payload.response.ContractResponse;
 import gr.hua.distributed.it21774.payload.response.MessageResponse;
 import gr.hua.distributed.it21774.payload.response.PrefilledUserFormResponse;
 import gr.hua.distributed.it21774.repository.AppUserRepository;
+import gr.hua.distributed.it21774.repository.ContractRepository;
 import gr.hua.distributed.it21774.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,15 +19,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/users")
 public class UserController {
+
+    ContractRepository contractRepository;
 
     AppUserRepository appUserRepository;
 
@@ -33,27 +41,26 @@ public class UserController {
 
     JwtUtils jwtUtils;
 
-    @Value("${app.jwtExpirationMs}")
-    private int jwtExpirationMs;
-
     @Autowired
-    public UserController(AppUserRepository appUserRepository,
+    public UserController(ContractRepository contractRepository,
+                          AppUserRepository appUserRepository,
                           RoleRepository roleRepository,
                           PasswordEncoder encoder,
                           JwtUtils jwtUtils) {
+        this.contractRepository = contractRepository;
         this.appUserRepository = appUserRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
     }
 
-    @GetMapping("/users")
+    @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok().body(appUserRepository.findAll());
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getUser(HttpServletRequest request,
                                      @PathVariable Long id) {
 
@@ -83,10 +90,23 @@ public class UserController {
                     .body(new MessageResponse("User does not exist"));
         }
 
-        return ResponseEntity.ok().body(resourceUser);
+        Set<String> strRoles = new HashSet<>();
+
+        for (Role role : resourceUser.getRoles()) {
+            strRoles.add(role.getRole().toString().substring(5));
+        }
+
+        return ResponseEntity.ok().body(new PrefilledUserFormResponse(resourceUser.getUsername(),
+                "",
+                resourceUser.getEmail(),
+                resourceUser.getFirstName(),
+                resourceUser.getLastName(),
+                strRoles,
+                resourceUser.getAfm(),
+                resourceUser.getAmka()));
     }
 
-    @PostMapping("/registerUser")
+    @PostMapping("")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerUser(
             @Valid @RequestBody SignupOrUpdateRequest signUpOrUpdateRequest) {
@@ -94,33 +114,28 @@ public class UserController {
         if (appUserRepository.existsByUsername(signUpOrUpdateRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already in use: "
-                            + signUpOrUpdateRequest.getUsername()));
+                    .body(new MessageResponse("Username is already in use"));
         }
 
         if (appUserRepository.existsByEmail(signUpOrUpdateRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use: "
-                            + signUpOrUpdateRequest.getEmail()));
+                    .body(new MessageResponse("Email is already in use"));
         }
 
         if (appUserRepository.existsByAfm(signUpOrUpdateRequest.getAfm())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Afm is already in use: "
-                            + signUpOrUpdateRequest.getAfm()));
+                    .body(new MessageResponse("Afm is already in use"));
         }
 
         if (appUserRepository.existsByAmka(signUpOrUpdateRequest.getAmka())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Amka is already in use: "
-                            + signUpOrUpdateRequest.getAmka()));
+                    .body(new MessageResponse("Amka is already in use"));
         }
 
-
-            Set<Role> roles;
+        Set<Role> roles;
 
         try {
             roles = assignRoles(signUpOrUpdateRequest.getRole());
@@ -147,38 +162,7 @@ public class UserController {
                 .body(new MessageResponse("User registered successfully"));
     }
 
-    @GetMapping("/updateUser/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> prefilledUserForm(@PathVariable Long id) {
-
-        AppUser appUser;
-
-        try {
-            appUser = appUserRepository.findById(id).get();
-        } catch (NoSuchElementException e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("User does not exist"));
-        }
-
-        Set<Role> roles = appUser.getRoles();
-        Set<String> strRoles = new HashSet<>();
-
-        for (Role role : roles) {
-            strRoles.add(role.getRole().toString());
-        }
-
-        return ResponseEntity.ok().body(new PrefilledUserFormResponse(appUser.getUsername(),
-                                                                "",
-                                                                appUser.getEmail(),
-                                                                appUser.getFirstName(),
-                                                                appUser.getLastName(),
-                                                                strRoles,
-                                                                appUser.getAfm(),
-                                                                appUser.getAmka()));
-    }
-
-    @PutMapping("/updateUser/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateUser(@PathVariable Long id,
                                         @Valid @RequestBody SignupOrUpdateRequest signUpOrUpdateRequest) {
@@ -193,44 +177,40 @@ public class UserController {
                     .body(new MessageResponse("User does not exist"));
         }
 
-        AppUser existingUser;
-
-        if(appUserRepository.existsByUsername(signUpOrUpdateRequest.getUsername())) {
-            existingUser = appUserRepository.findByUsername(signUpOrUpdateRequest.getUsername()).get();
+        try {
+            AppUser existingUser = appUserRepository.findByUsername(signUpOrUpdateRequest.getUsername()).get();
             if (existingUser.getId() != id) {
                 return ResponseEntity.badRequest()
-                        .body(new MessageResponse("Username is already in use: "
-                                + signUpOrUpdateRequest.getUsername()));
+                        .body(new MessageResponse("Username is already in use"));
             }
+        } catch (NoSuchElementException e) {
         }
 
-        if (appUserRepository.existsByEmail(signUpOrUpdateRequest.getEmail())) {
-            existingUser = appUserRepository.findByEmail(signUpOrUpdateRequest.getEmail()).get();
+        try {
+            AppUser existingUser = appUserRepository.findByEmail(signUpOrUpdateRequest.getEmail()).get();
             if (existingUser.getId() != id) {
                 return ResponseEntity.badRequest()
-                        .body(new MessageResponse("Email is already in use: "
-                                + signUpOrUpdateRequest.getEmail()));
+                        .body(new MessageResponse("Email is already in use"));
             }
+        } catch (NoSuchElementException e) {
         }
 
-        if (appUserRepository.existsByAfm(signUpOrUpdateRequest.getAfm())) {
-            existingUser = appUserRepository.findByAfm(signUpOrUpdateRequest.getAfm()).get();
+        try {
+            AppUser existingUser = appUserRepository.findByAfm(signUpOrUpdateRequest.getAfm()).get();
             if (existingUser.getId() != id) {
-                return ResponseEntity
-                        .badRequest()
-                        .body(new MessageResponse("Afm is already in use: "
-                                + signUpOrUpdateRequest.getAfm()));
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Afm is already in use"));
             }
+        } catch (NoSuchElementException e) {
         }
 
-        if (appUserRepository.existsByAmka(signUpOrUpdateRequest.getAmka())) {
-            existingUser = appUserRepository.findByAmka(signUpOrUpdateRequest.getAmka()).get();
+        try {
+            AppUser existingUser = appUserRepository.findByAmka(signUpOrUpdateRequest.getAmka()).get();
             if (existingUser.getId() != id) {
-                return ResponseEntity
-                        .badRequest()
-                        .body(new MessageResponse("Amka is already in use: "
-                                + signUpOrUpdateRequest.getAmka()));
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Amka is already in use"));
             }
+        } catch (NoSuchElementException e) {
         }
 
         Set<Role> roles;
@@ -243,7 +223,8 @@ public class UserController {
         }
 
         String newPassword = signUpOrUpdateRequest.getPassword();
-        if (!(newPassword.isEmpty()) && (newPassword.length() >= 8)) {
+        if ( !(newPassword.isEmpty())
+                && (newPassword.length() >= 8)) {
             signUpOrUpdateRequest.setPassword(encoder.encode(newPassword));
         }
         else {
@@ -252,12 +233,13 @@ public class UserController {
 
         appUser.setUpdates(appUser, signUpOrUpdateRequest);
         appUser.setRoles(roles);
+
         appUserRepository.save(appUser);
 
         return ResponseEntity.ok(new MessageResponse("User updated"));
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 
@@ -289,46 +271,204 @@ public class UserController {
         return ResponseEntity.ok(new MessageResponse("User deleted"));
     }
 
+    @GetMapping("/{id}/contract")
+    @PreAuthorize("hasRole('LAWYER') or hasRole('CLIENT')")
+    public ResponseEntity<?> getUserContract(HttpServletRequest request,
+                                             @PathVariable Long id) {
+
+        Long requestingUserId = jwtUtils.getUserIdFromJwt(request);
+
+        if (requestingUserId != id) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("You can't view another user's contract"));
+        }
+
+        AppUser requestingUser = appUserRepository.findById(requestingUserId).get();
+
+        if (requestingUser.getContract() == null) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("You don't have a contract"));
+        }
+
+        Contract contract = requestingUser.getContract();
+        List<String> membersAndAnswers = new ArrayList<>();
+        List<AppUser> users = contract.getAppUser();
+
+        for ( AppUser tempUser : users) {
+            membersAndAnswers.add(tempUser.getFirstName()
+                    + " " + tempUser.getLastName() + ": "
+                    +tempUser.getAnswer());
+        }
+
+        membersAndAnswers.add(requestingUser.getAnswer());
+
+        return ResponseEntity.ok(new ContractResponse(contract.getText(),
+                contract.getDateCreated(),
+                contract.getDateApproved(),
+                contract.getStatus(),
+                membersAndAnswers));
+    }
+
+    @PostMapping("/{id}/contract")
+    @PreAuthorize("hasRole('LAWYER')")
+    public ResponseEntity<?> createContract(
+            HttpServletRequest request,
+            @PathVariable Long id,
+            @Valid @RequestBody CreateContractRequest createContractRequest) {
+
+        Long requestingUserId = jwtUtils.getUserIdFromJwt(request);
+
+        if (requestingUserId != id) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("You can't create another user's contract"));
+        }
+
+        AppUser requestingUser = appUserRepository.findById(requestingUserId).get();
+
+        if (requestingUser.getContract() != null) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("You already have a contract"));
+        }
+
+        // Get the local time and assign it to a String
+        DateTimeFormatter dateTimeFormatter =
+                DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        String dateCreated = dateTimeFormatter.format(now);
+        String text = createContractRequest.getText();
+
+        Contract contract = new Contract(text, dateCreated, "", "In Progress");
+        contract.setId(0L);
+
+        Set<Long> afm = createContractRequest.getAfm();
+
+        // Check for duplicate afm
+        if (afm.size() != 4) {
+            return ResponseEntity.badRequest().body(new MessageResponse("The afms must be unique"));
+        }
+
+        for (Long tempAfm : afm) {
+
+            AppUser contractMember;
+
+            try {
+                contractMember = appUserRepository.findByAfm(tempAfm).get();
+                if (contractMember.getContract() != null) {
+                    return ResponseEntity.badRequest()
+                            .body(new MessageResponse(
+                                    contractMember.getFirstName()
+                                            + " "
+                                            + contractMember.getLastName()
+                                            + " already has a contract"));
+                }
+            } catch (NoSuchElementException e) {
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Afm does not exist: " + tempAfm));
+            }
+
+            // Associate contract to users
+            contract.addAppUsers(contractMember);
+        }
+
+        contractRepository.save(contract);
+
+        return ResponseEntity.ok()
+                .body(new MessageResponse("Contract Created"));
+    }
+
+    @PutMapping("/{id}/contract")
+    @PreAuthorize("hasRole('LAWYER') or hasRole('CLIENT')")
+    public ResponseEntity<?> answerContract(HttpServletRequest request,
+                                            @PathVariable Long id) {
+
+        Long requestingUserId = jwtUtils.getUserIdFromJwt(request);
+
+        if (requestingUserId != id) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("You can't answer another user's contract"));
+        }
+
+        AppUser requestingUser = appUserRepository.findById(id).get();
+
+        if (requestingUser.getContract() == null) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("You don't have any contracts"));
+        }
+
+        if (requestingUser.getAnswer().equals("Yes")) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("You have already answered"));
+        }
+
+        requestingUser.setAnswer("Yes");
+        appUserRepository.save(requestingUser);
+
+        Contract contract = requestingUser.getContract();
+        List<AppUser> contractMembers = contract.getAppUser();
+
+        /*
+        ΠΡΟΓΡΑΜΜΑΤΙΣΜΟΣ 1 incoming!!
+        */
+        int i = 0;
+        for (AppUser tempUser : contractMembers) {
+            if (tempUser.getAnswer().equals("Yes")) {
+                i += 1;
+            }
+        }
+
+        if (i == 4) {
+            contract.setStatus("Answered");
+            contractRepository.save(contract);
+        }
+
+        return ResponseEntity.ok(new MessageResponse("You have answered successfully"));
+    }
+
     public Set<Role> assignRoles(Set<String> roles) throws RuntimeException {
 
         Set<Role> assignRoles = new HashSet<>();
 
         if (roles.isEmpty()) {
             Role userRole = roleRepository.findByRole(ERole.ROLE_CLIENT)
-                    .orElseThrow(() -> new RuntimeException("Error: Role " + ERole.ROLE_CLIENT + " is not found"));
+                    .orElseThrow(() -> new RuntimeException("Role " + ERole.ROLE_CLIENT + " is not found"));
             assignRoles.add(userRole);
         } else {
             roles.forEach(role -> {
                 switch (role) {
                     case "lawyer":
                         Role lawyerRole = roleRepository.findByRole(ERole.ROLE_LAWYER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role " + role + " is not found"));
+                                .orElseThrow(() -> new RuntimeException("Role " + role + " is not found"));
                         assignRoles.add(lawyerRole);
 
                         break;
                     case "notary":
                         Role notaryRole = roleRepository.findByRole(ERole.ROLE_NOTARY)
-                                .orElseThrow(() -> new RuntimeException("Error: Role " + role + " is not found"));
+                                .orElseThrow(() -> new RuntimeException("Role " + role + " is not found"));
                         assignRoles.add(notaryRole);
 
                         break;
                     case "admin":
                         Role adminRole = roleRepository.findByRole(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role " + role + " is not found"));
+                                .orElseThrow(() -> new RuntimeException("Role " + role + " is not found"));
                         assignRoles.add(adminRole);
 
                         break;
                     case "client":
                         Role clientRole = roleRepository.findByRole(ERole.ROLE_CLIENT)
-                                .orElseThrow(() -> new RuntimeException("Error: Role " + role + " is not found"));
+                                .orElseThrow(() -> new RuntimeException("Role " + role + " is not found"));
                         assignRoles.add(clientRole);
                         break;
                     default:
-                        throw new RuntimeException("Error: Role " + role + " is not found");
+                        throw new RuntimeException("Role " + role + " is not found");
                 }
             });
         }
 
         return assignRoles;
     }
-}
+ }

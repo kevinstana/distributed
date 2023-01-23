@@ -3,6 +3,7 @@ package gr.hua.distributed.it21774.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -54,11 +55,19 @@ public class SecurityConfig {
                 .and()
                     .authorizeRequests()
                         .antMatchers("/login").permitAll()
-                        //.antMatchers("/logout").authenticated()
-                        .antMatchers("/usersall").hasRole("ADMIN")
-                        .antMatchers("/registerUser").hasRole("ADMIN")
-                        .antMatchers("/updateUser").hasRole("ADMIN")
-                        .antMatchers("/users/{id}/contract").hasAnyRole("LAWYER", "CLIENT")
+                        .antMatchers("/users").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.GET, "/users/{id}").hasAnyRole("ADMIN", "LAWYER", "CLIENT", "NOTARY")
+                        .antMatchers(HttpMethod.POST, "/users/{id}").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.PUT, "/users/{id}").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.GET, "/users/{id}/contract").hasAnyRole("LAWYER", "CLIENT")
+                        .antMatchers(HttpMethod.POST, "/users/{id}/contract").hasAnyRole("LAWYER", "CLIENT")
+                        .antMatchers(HttpMethod.PUT, "/users/{id}/contract").hasAnyRole("LAWYER", "CLIENT")
+                        .antMatchers(HttpMethod.GET, "/contracts").hasAnyRole("ADMIN", "NOTARY")
+                        .antMatchers(HttpMethod.DELETE, "/contracts/{id}").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.GET, "/contracts/{id}").hasRole("NOTARY")
+                        .antMatchers(HttpMethod.PUT, "/contracts/{id}").hasRole("NOTARY")
+                        .antMatchers("/contracts/{id}/force-delete").hasRole("ADMIN")
                     .anyRequest()
                         .authenticated();
 

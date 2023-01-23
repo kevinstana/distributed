@@ -28,12 +28,12 @@ public class AppUser {
     private Long id;
 
     @NotNull
-    @Size(max = 20)
+    @Size(min = 2, max = 20)
     @Column(name = "username")
     private String username;
 
     @NotNull
-    @Size(max = 120)
+    @Size(min = 8, max = 120)
     @Column(name = "password")
     @JsonIgnore
     private String password;
@@ -45,17 +45,16 @@ public class AppUser {
     private String email;
 
     @NotNull
-    @Size(max = 20)
+    @Size(min = 2, max = 20)
     @Column(name = "first_name")
     private String firstName;
 
     @NotNull
-    @Size(max = 20)
+    @Size(min = 2, max = 20)
     @Column(name = "last_name")
     private String lastName;
 
     @NotNull
-    //@Size(min = 9, max = 9)
     @Column(name = "afm")
     private Long afm;
 

@@ -1,6 +1,7 @@
 package gr.hua.distributed.it21774.payload.request;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class SignupOrUpdateRequest {

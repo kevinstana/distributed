@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,10 @@ public class Contract {
 
     @NotNull
     @Column(name = "text")
+    @Size(min = 10)
     private String text;
 
+    @NotNull
     @Column(name = "date_created")
     private String dateCreated;
 
