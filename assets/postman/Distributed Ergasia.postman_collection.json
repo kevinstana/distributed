@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bee87781-0900-4b73-9efb-2b42cb47d6b8",
+		"_postman_id": "129ec766-0fe3-4049-8009-2b571b26906b",
 		"name": "Distributed Ergasia",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "24725001"
@@ -83,13 +83,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/registerUser",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"registerUser"
+								"users"
 							]
 						}
 					},
@@ -112,7 +112,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"\",\r\n    \"password\": \"\",\r\n    \"email\": \"\",\r\n    \"role\": [\"client\"],\r\n    \"firstName\": \"\",\r\n    \"lastName\": \"\",\r\n    \"afm\": \"needs 9 digit int\",\r\n    \"amka\": \"needs 11 digit int\"\r\n}",
+							"raw": "{\r\n    \"username\": \"username\",\r\n    \"password\": \"password\",\r\n    \"email\": \"email@gmail.com\",\r\n    \"role\": [],\r\n    \"firstName\": \"Fname\",\r\n    \"lastName\": \"Lname\",\r\n    \"afm\": 333333333,\r\n    \"amka\": 33333333333\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -120,13 +120,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/registerUser",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"registerUser"
+								"users"
 							]
 						}
 					},
@@ -155,13 +155,13 @@
 							}
 						],
 						"url": {
-							"raw": "http://{{host}}/usersall",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"usersall"
+								"users"
 							]
 						}
 					},
@@ -183,55 +183,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}/usersall/2",
+							"raw": "http://{{host}}/users/",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"usersall",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Updare User",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_admin}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{host}}/updateUser/2",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"updateUser",
-								"2"
+								"users",
+								""
 							]
 						}
 					},
@@ -254,7 +213,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"notary_updated\",\r\n    \"password\": \"\",\r\n    \"email\": \"notary@gmail.com\",\r\n    \"firstName\": \"Notary\",\r\n    \"lastName\": \"Only One\",\r\n    \"role\": [\r\n        \"notary\"\r\n    ],\r\n    \"afm\": 222222222,\r\n    \"amka\": 22222222222\r\n}",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"password\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"firstName\": \"Kevin\",\r\n    \"lastName\": \"Stana\",\r\n    \"role\": [\r\n        \"admin\"\r\n],\r\n    \"afm\": 111111111,\r\n    \"amka\": 11111111111\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -262,14 +221,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/updateUser/2",
+							"raw": "http://{{host}}/users/1",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"updateUser",
-								"2"
+								"users",
+								"1"
 							]
 						}
 					},
@@ -320,13 +279,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}/contractsall",
+							"raw": "http://{{host}}/contracts",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"contractsall"
+								"contracts"
 							]
 						}
 					},
@@ -348,14 +307,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}/contracts/4",
+							"raw": "http://{{host}}/contracts/2",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"contracts",
-								"4"
+								"2"
 							]
 						}
 					},
@@ -377,14 +336,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}/forceDeleteContract/3",
+							"raw": "http://{{host}}/contracts/3/force-delete",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"forceDeleteContract",
-								"3"
+								"contracts",
+								"3",
+								"force-delete"
 							]
 						}
 					},
@@ -415,7 +375,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"notary_updated\",\r\n    \"password\": \"password\"\r\n}",
+							"raw": "{\r\n    \"username\": \"notary\",\r\n    \"password\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -451,13 +411,42 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}/contractsall",
+							"raw": "http://{{host}}/contracts",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"contractsall"
+								"contracts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One Contract",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_notary}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}/contracts/2",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"contracts",
+								"2"
 							]
 						}
 					},
@@ -488,14 +477,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/contracts/1",
+							"raw": "http://{{host}}/contracts/2",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"contracts",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -531,13 +520,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/registerUser",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"registerUser"
+								"users"
 							]
 						}
 					},
@@ -568,13 +557,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/registerUser",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"registerUser"
+								"users"
 							]
 						}
 					},
@@ -605,13 +594,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/registerUser",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"registerUser"
+								"users"
 							]
 						}
 					},
@@ -642,13 +631,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/registerUser",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"registerUser"
+								"users"
 							]
 						}
 					},
@@ -684,13 +673,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/registerUser",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"registerUser"
+								"users"
 							]
 						}
 					},
@@ -721,13 +710,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/registerUser",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"registerUser"
+								"users"
 							]
 						}
 					},
@@ -758,13 +747,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/registerUser",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"registerUser"
+								"users"
 							]
 						}
 					},
@@ -795,13 +784,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{host}}/registerUser",
+							"raw": "http://{{host}}/users",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"registerUser"
+								"users"
 							]
 						}
 					},
@@ -902,7 +891,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"afm\": [333333333, 444444444, 555555555, 666666666],\r\n    \"text\": \"This is a new contract for Group 1\"\r\n}",
+									"raw": "{\r\n    \"afm\": [555555555, 333333333, 444444444, 555555555, 666666666],\r\n    \"text\": \"This is a new contract for Group 1\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
