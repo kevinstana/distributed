@@ -154,8 +154,8 @@ I did't intialize this data in the database creation because it's satisfying to 
   
 ![Screenshot (742)](https://user-images.githubusercontent.com/122367928/212917396-02ab7c16-b241-4a30-b24a-58f702e2a1f4.png)
   
-![Screenshot (746)](https://user-images.githubusercontent.com/122367928/212920691-bda86b02-8b16-45eb-9530-fe17a298ef2b.png)
-  
+![Screenshot (763)](https://user-images.githubusercontent.com/122367928/214138075-82b579a0-2365-432f-a00a-33aae6c4c78b.png)
+
 ![Screenshot (744)](https://user-images.githubusercontent.com/122367928/212917883-b23d676a-5ee3-47cc-bf9b-00ae678497b0.png)
   
 If it hopefully works you will get this result  
@@ -243,10 +243,9 @@ That's it pretty much for the notary, lawyers and clients. Now as the ADMIN you 
   
 ![Screenshot (755)](https://user-images.githubusercontent.com/122367928/212932667-e3da6723-eb6a-44d9-9cf5-dfd7075fb914.png)
   
-You can also update a user's details by running the "PUT Update User" request. You can run the "GET Update User" request first to view the current details. In both cases you have to add the id of the user you want to update to the path  
+You can also update a user's details by running the "PUT Update User" request. You can run the "GET One User" request first to view the current details. In both cases you have to add the id of the user you want to update to the path  
   
-![Screenshot (756)](https://user-images.githubusercontent.com/122367928/212933907-9b45a1ee-3c30-4cf7-be24-6b0ba4bec162.png)
-![Screenshot (757)](https://user-images.githubusercontent.com/122367928/212933953-9958e45c-3497-452d-8eb1-3e23737acc63.png)
+![Screenshot (764)](https://user-images.githubusercontent.com/122367928/214139021-d307995b-2a11-491a-beea-78ea6f8bed73.png)
   
 In the "PUT Update User Request", you can also change the password of the user. If you just give "" the password will stay the same  
   
