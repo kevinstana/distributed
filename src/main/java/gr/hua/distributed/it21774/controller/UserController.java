@@ -350,6 +350,9 @@ public class UserController {
             return ResponseEntity.badRequest().body(new MessageResponse("The afms must be unique"));
         }
 
+        int lawyerCount = 0;
+        int clientCount = 0;
+
         for (Long tempAfm : afm) {
 
             AppUser contractMember;
@@ -359,18 +362,32 @@ public class UserController {
                 if (contractMember.getContract() != null) {
                     return ResponseEntity.badRequest()
                             .body(new MessageResponse(
-                                    contractMember.getFirstName()
-                                            + " "
-                                            + contractMember.getLastName()
+                                    contractMember.getAfm()
                                             + " already has a contract"));
                 }
+
+                for (Role tempRole : contractMember.getRoles()) {
+                    if (tempRole.getRole().toString().equals("ROLE_CLIENT")) {
+                        clientCount++;
+                    }
+                    if (tempRole.getRole().toString().equals("ROLE_LAWYER")) {
+                        lawyerCount++;
+                    }
+                }
+
             } catch (NoSuchElementException e) {
                 return ResponseEntity.badRequest()
                         .body(new MessageResponse("Afm does not exist: " + tempAfm));
             }
 
+
             // Associate contract to users
             contract.addAppUsers(contractMember);
+        }
+
+        if (clientCount < 2 || lawyerCount < 2) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("There must be 2 lawyers and 2 clients"));
         }
 
         contractRepository.save(contract);
