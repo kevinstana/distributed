@@ -135,6 +135,18 @@ public class UserController {
                     .body(new MessageResponse("Amka is already in use"));
         }
 
+        try{
+            Long.valueOf(signUpOrUpdateRequest.getAfm());
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid afm"));
+        }
+
+        try{
+            Long.valueOf(signUpOrUpdateRequest.getAmka());
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid amka"));
+        }
+
         Set<Role> roles;
 
         try {
@@ -195,6 +207,20 @@ public class UserController {
         } catch (NoSuchElementException e) {
         }
 
+        // Check if afm and amka are valid
+        try{
+            Long.valueOf(signUpOrUpdateRequest.getAfm());
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid afm"));
+        }
+
+        try{
+            Long.valueOf(signUpOrUpdateRequest.getAmka());
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid amka"));
+        }
+
+        // Check if afm and amka exist
         try {
             AppUser existingUser = appUserRepository.findByAfm(signUpOrUpdateRequest.getAfm()).get();
             if (existingUser.getId() != id) {
@@ -343,7 +369,16 @@ public class UserController {
         Contract contract = new Contract(text, dateCreated, "", "In Progress");
         contract.setId(0L);
 
-        Set<Long> afm = createContractRequest.getAfm();
+        for (String tempAfm : createContractRequest.getAfm()) {
+            try {
+                Long.valueOf(tempAfm);
+            } catch (NumberFormatException e) {
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Invalid afm: " + tempAfm));
+            }
+        }
+
+        Set<String> afm = createContractRequest.getAfm();
 
         // Check for duplicate afm
         if (afm.size() != 4) {
@@ -353,7 +388,7 @@ public class UserController {
         int lawyerCount = 0;
         int clientCount = 0;
 
-        for (Long tempAfm : afm) {
+        for (String tempAfm : afm) {
 
             AppUser contractMember;
 
@@ -366,13 +401,22 @@ public class UserController {
                                             + " already has a contract"));
                 }
 
+                boolean isClient = false;
+                boolean isLawyer = false;
                 for (Role tempRole : contractMember.getRoles()) {
                     if (tempRole.getRole().toString().equals("ROLE_CLIENT")) {
                         clientCount++;
+                        isClient = true;
                     }
                     if (tempRole.getRole().toString().equals("ROLE_LAWYER")) {
                         lawyerCount++;
+                        isLawyer = true;
                     }
+                }
+
+                if (!isClient && !isLawyer) {
+                    return ResponseEntity.badRequest()
+                            .body(new MessageResponse("There must be 2 lawyers and 2 clients"));
                 }
 
             } catch (NoSuchElementException e) {

@@ -55,12 +55,14 @@ public class AppUser {
     private String lastName;
 
     @NotNull
+    @Size(min = 9, max = 9)
     @Column(name = "afm")
-    private Long afm;
+    private String afm;
 
     @NotNull
+    @Size(min = 11, max = 11)
     @Column(name = "amka")
-    private Long amka;
+    private String amka;
 
     @Column(name = "answer")
     private String answer;
@@ -96,8 +98,8 @@ public class AppUser {
                    String firstName,
                    String lastName,
                    Set<Role> roles,
-                   Long afm,
-                   Long amka) {
+                   String afm,
+                   String amka) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -156,19 +158,19 @@ public class AppUser {
         this.email = email;
     }
 
-    public Long getAfm() {
+    public String getAfm() {
         return afm;
     }
 
-    public void setAfm(Long afm) {
+    public void setAfm(String afm) {
         this.afm = afm;
     }
 
-    public Long getAmka() {
+    public String getAmka() {
         return amka;
     }
 
-    public void setAmka(Long amka) {
+    public void setAmka(String amka) {
         this.amka = amka;
     }
 
@@ -201,8 +203,8 @@ public class AppUser {
         this.email = signupOrUpdateRequest.getEmail();
         this.firstName = signupOrUpdateRequest.getFirstName();
         this.lastName = signupOrUpdateRequest.getLastName();
-        this.afm = signupOrUpdateRequest.getAfm();
-        this.amka = signupOrUpdateRequest.getAmka();
+        this.afm = signupOrUpdateRequest.getAfm().toString();
+        this.amka = signupOrUpdateRequest.getAmka().toString();
         if ( !signupOrUpdateRequest.getPassword().isEmpty()) {
             this.password = signupOrUpdateRequest.getPassword();
         }

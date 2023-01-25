@@ -29,9 +29,9 @@ public class AppUserDetailsImpl implements UserDetails {
 
     private String lastName;
 
-    private Long afm;
+    private String afm;
 
-    private Long amka;
+    private String amka;
 
 
     public AppUserDetailsImpl(Long id,
@@ -41,8 +41,8 @@ public class AppUserDetailsImpl implements UserDetails {
                               String email,
                               String firstName,
                               String lastName,
-                              Long afm,
-                              Long amka) {
+                              String afm,
+                              String amka) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -104,11 +104,11 @@ public class AppUserDetailsImpl implements UserDetails {
         return lastName;
     }
 
-    public Long getAfm() {
+    public String getAfm() {
         return afm;
     }
 
-    public Long getAmka() {
+    public String getAmka() {
         return amka;
     }
 

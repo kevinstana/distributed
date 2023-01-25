@@ -6,15 +6,15 @@ import java.util.Set;
 public class CreateContractRequest {
 
     // Contains the afms of the involved parties
-    private Set<Long> afm = new HashSet<>();
+    private Set<String> afm = new HashSet<>();
 
     private String text;
 
-    public Set<Long> getAfm() {
+    public Set<String> getAfm() {
         return afm;
     }
 
-    public void setAfm(Set<Long> afm) {
+    public void setAfm(Set<String> afm) {
         this.afm = afm;
     }
 

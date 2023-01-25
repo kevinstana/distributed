@@ -1,7 +1,7 @@
 create table IF NOT exists app_user (
     id bigserial PRIMARY KEY,
-    afm bigint unique not null,
-    amka bigint unique not null,
+    afm varchar(9) unique not null,
+    amka varchar(11) unique not null,
     answer varchar(255),
     email varchar(50) unique not null,
     first_name varchar(20) not null,
@@ -36,7 +36,7 @@ alter table app_user add column contract_id bigint;
 alter table app_user add constraint fk_user_contract foreign key (contract_id) references contract(id);
 
 INSERT INTO app_user (afm, amka, answer, email, first_name, last_name, password, username) VALUES
-    (111111111, 11111111111, null, 'admin@gmail.com', 'Kevin', 'Stana', '$2a$10$VwKas4ss8uuLL.YpbycfXeT52yMjOXMce3OJe9wotGL4MT/Juo7tS', 'admin');
+    ('111111111', '11111111111', null, 'admin@gmail.com', 'Kevin', 'Stana', '$2a$10$VwKas4ss8uuLL.YpbycfXeT52yMjOXMce3OJe9wotGL4MT/Juo7tS', 'admin');
 
 INSERT INTO role (role) VALUES
 ('ROLE_ADMIN'),

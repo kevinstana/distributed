@@ -11,9 +11,9 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     Optional<AppUser> findByUsername(String username);
 
-    Optional<AppUser> findByAfm(Long afm);
+    Optional<AppUser> findByAfm(String afm);
 
-    Optional<AppUser> findByAmka(Long amka);
+    Optional<AppUser> findByAmka(String amka);
 
     Optional<AppUser> findByEmail(String email);
 
@@ -21,7 +21,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     Boolean existsByEmail(String email);
 
-    Boolean existsByAfm(Long afm);
+    Boolean existsByAfm(String afm);
 
-    Boolean existsByAmka(Long amka);
+    Boolean existsByAmka(String amka);
 }

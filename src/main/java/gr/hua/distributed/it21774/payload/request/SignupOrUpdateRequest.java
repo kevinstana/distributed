@@ -1,8 +1,5 @@
 package gr.hua.distributed.it21774.payload.request;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class SignupOrUpdateRequest {
@@ -19,9 +16,9 @@ public class SignupOrUpdateRequest {
 
     private String lastName;
 
-    private Long afm;
+    private String afm;
 
-    private Long amka;
+    private String amka;
 
     public String getUsername() {
         return username;
@@ -70,19 +67,19 @@ public class SignupOrUpdateRequest {
         this.lastName = lastName;
     }
 
-    public Long getAfm() {
+    public String getAfm() {
         return afm;
     }
 
-    public void setAfm(Long afm) {
+    public void setAfm(String afm) {
         this.afm = afm;
     }
 
-    public Long getAmka() {
+    public String getAmka() {
         return amka;
     }
 
-    public void setAmka(Long amka) {
+    public void setAmka(String amka) {
         this.amka = amka;
     }
 }
