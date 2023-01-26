@@ -13,15 +13,9 @@ In terminal, use
 ```
 git clone https://github.com/kevinstana/distributed
 ```
-To view all the branches use  
-```
-git branch
-```
-If you are not on the master branch (the * indicates the current branch) use
-```
-git switch master
-```
+  
 Import the folder to your IDE of choice  
+  
 ### *Option 3* (IntelliJ IDEA)  
 1. Open IntelliJ IDEA  
 2. From the top left select **File>New>Project from Version Control**  
