@@ -3,18 +3,26 @@ Project for Distributed Systems course
 # distributed
 Project for Distributed Systems course
 
-## Download the repository (master branch)
+## Download the repository
 ### *Option 1*
 1. Download the .zip file  
 2. Extract folder  
-3. Import folder to your IDE of choice  
+3. Import folder to your IDE  
 ### *Option 2*
-In terminal, use
-```
+In terminal, run  
+```bash
 git clone https://github.com/kevinstana/distributed
 ```
+```bash
+cd distributed
+```
+Now run the docker commands from below  
   
-Import the folder to your IDE of choice  
+Then run  
+  
+```bash
+mvn spring-boot:run
+```
   
 ### *Option 3* (IntelliJ IDEA)  
 1. Open IntelliJ IDEA  
