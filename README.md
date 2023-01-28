@@ -16,9 +16,13 @@ git clone https://github.com/kevinstana/distributed
 ```bash
 cd distributed
 ```
-Now run the docker commands from below  
+Now run the docker commands from below and then    
   
-Then run  
+```bash
+./mvnw clean spring-boot-run
+```  
+  
+or  
   
 ```bash
 mvn spring-boot:run
