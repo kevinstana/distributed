@@ -19,7 +19,7 @@ cd distributed
 Now run the docker commands from below and then    
   
 ```bash
-./mvnw clean spring-boot-run
+./mvnw clean spring-boot:run
 ```  
   
 or  
