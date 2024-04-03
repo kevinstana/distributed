@@ -1,4 +1,4 @@
-Project for Distributed Systems course
+Project for the Distributed Systems course
 =======
 # distributed
 Project for Distributed Systems course
