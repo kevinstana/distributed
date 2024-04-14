@@ -1,6 +1,6 @@
 package gr.hua.distributed.it21774.payload.response;
 
-import gr.hua.distributed.it21774.entity.AppUser;
+import gr.hua.distributed.it21774.entity.ContractStatusEnum;
 
 import java.util.List;
 
@@ -8,11 +8,11 @@ public class ContractResponse {
 
     private String text;
 
-    private String dateCreated;
+    private Long dateCreated;
 
-    private String dateApproved;
+    private Long dateApproved;
 
-    private String status;
+    private ContractStatusEnum status;
 
     private List<String> membersAndAnswers;
 
@@ -20,9 +20,9 @@ public class ContractResponse {
     }
 
     public ContractResponse(String text,
-                            String dateCreated,
-                            String dateApproved,
-                            String status,
+                            Long dateCreated,
+                            Long dateApproved,
+                            ContractStatusEnum status,
                             List<String> membersAndAnswers) {
         this.text = text;
         this.dateCreated = dateCreated;
@@ -39,27 +39,27 @@ public class ContractResponse {
         this.text = text;
     }
 
-    public String getDateCreated() {
+    public Long getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(String dateCreated) {
+    public void setDateCreated(Long dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public String getDateApproved() {
+    public Long getDateApproved() {
         return dateApproved;
     }
 
-    public void setDateApproved(String dateApproved) {
+    public void setDateApproved(Long dateApproved) {
         this.dateApproved = dateApproved;
     }
 
-    public String getStatus() {
+    public ContractStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ContractStatusEnum status) {
         this.status = status;
     }
 

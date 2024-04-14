@@ -1,11 +1,12 @@
 package gr.hua.distributed.it21774.controller;
 
 import gr.hua.distributed.it21774.config.JwtUtils;
-import gr.hua.distributed.it21774.entity.AppUser;
+import gr.hua.distributed.it21774.entity.User;
 import gr.hua.distributed.it21774.entity.Contract;
+import gr.hua.distributed.it21774.entity.ContractStatusEnum;
 import gr.hua.distributed.it21774.payload.response.ContractResponse;
 import gr.hua.distributed.it21774.payload.response.MessageResponse;
-import gr.hua.distributed.it21774.repository.AppUserRepository;
+import gr.hua.distributed.it21774.repository.UserRepository;
 import gr.hua.distributed.it21774.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,13 +25,13 @@ public class ContractController {
 
     ContractRepository contractRepository;
 
-    AppUserRepository appUserRepository;
+    UserRepository appUserRepository;
 
     JwtUtils jwtUtils;
 
     @Autowired
     public ContractController(ContractRepository contractRepository,
-                              AppUserRepository appUserRepository,
+                              UserRepository appUserRepository,
                               JwtUtils jwtUtils) {
         this.contractRepository = contractRepository;
         this.appUserRepository = appUserRepository;
@@ -59,9 +58,9 @@ public class ContractController {
         }
 
         List<String> membersAndAnswers = new ArrayList<>();
-        List<AppUser> users = contract.getAppUser();
+        List<User> users = contract.getUser();
 
-        for ( AppUser tempUser : users) {
+        for (User tempUser : users) {
             membersAndAnswers.add(tempUser.getFirstName()
                     + " " + tempUser.getLastName() + ": "
                     +tempUser.getAnswer());
@@ -93,25 +92,20 @@ public class ContractController {
                     .body(new MessageResponse("You have already approved this contract"));
         }
 
-        List<AppUser> appUsers = contract.getAppUser();
+        List<User> users = contract.getUser();
 
-        for (AppUser appUser : appUsers) {
-            if (appUser.getAnswer().equals("No")) {
+        for (User user : users) {
+            if (user.getAnswer().equals("No")) {
                 return ResponseEntity
                         .badRequest()
                         .body(new MessageResponse("Not all members have answered yet"));
             }
         }
 
-        // Get the local time and assign it to a String
-        DateTimeFormatter dateTimeFormatter =
-                DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm:ss");
-
-        LocalDateTime now = LocalDateTime.now();
-        String dateApproved = dateTimeFormatter.format(now);
+        Long dateApproved = System.currentTimeMillis();
 
         contract.setDateApproved(dateApproved);
-        contract.setStatus("Approved");
+        contract.setStatus(ContractStatusEnum.APPROVED);
         contractRepository.save(contract);
 
         return ResponseEntity.ok().body(new MessageResponse("Contract Approved"));

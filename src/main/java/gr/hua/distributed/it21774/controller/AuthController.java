@@ -4,9 +4,9 @@ import gr.hua.distributed.it21774.config.JwtUtils;
 import gr.hua.distributed.it21774.payload.request.LoginRequest;
 import gr.hua.distributed.it21774.payload.response.JwtResponse;
 import gr.hua.distributed.it21774.payload.response.MessageResponse;
-import gr.hua.distributed.it21774.repository.AppUserRepository;
+import gr.hua.distributed.it21774.repository.UserRepository;
 import gr.hua.distributed.it21774.repository.RoleRepository;
-import gr.hua.distributed.it21774.service.AppUserDetailsImpl;
+import gr.hua.distributed.it21774.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class AuthController {
 
     AuthenticationManager authenticationManager;
 
-    AppUserRepository appUserRepository;
+    UserRepository appUserRepository;
 
     RoleRepository roleRepository;
 
@@ -39,7 +39,7 @@ public class AuthController {
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager,
-                          AppUserRepository appUserRepository,
+                          UserRepository appUserRepository,
                           RoleRepository roleRepository,
                           PasswordEncoder encoder,
                           JwtUtils jwtUtils) {
@@ -60,7 +60,7 @@ public class AuthController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtUtils.generateJwtToken(authentication);
 
-            AppUserDetailsImpl appUserDetails = (AppUserDetailsImpl) authentication.getPrincipal();
+            UserDetailsImpl appUserDetails = (UserDetailsImpl) authentication.getPrincipal();
             List<String> roles = appUserDetails.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());

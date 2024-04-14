@@ -1,6 +1,6 @@
 package gr.hua.distributed.it21774.config;
 
-import gr.hua.distributed.it21774.service.AppUserDetailsImpl;
+import gr.hua.distributed.it21774.service.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class JwtUtils {
 
     public String generateJwtToken(Authentication authentication) {
 
-        AppUserDetailsImpl userPrincipal = (AppUserDetailsImpl) authentication.getPrincipal();
+        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
@@ -45,7 +45,7 @@ public class JwtUtils {
     public Long getUserIdFromJwt(HttpServletRequest request) {
 
         String jwt = parseJwt(request);
-        String payload = Jwts.parser().setSigningKey("bezKoderSecretKey")
+        String payload = Jwts.parser().setSigningKey(jwtSecret)
                 .parseClaimsJws(jwt).getBody().toString();
 
         String[] payloadToPieces = payload.split(",");

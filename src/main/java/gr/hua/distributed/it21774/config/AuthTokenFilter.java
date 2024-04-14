@@ -1,6 +1,6 @@
 package gr.hua.distributed.it21774.config;
 
-import gr.hua.distributed.it21774.service.AppUserDetailsServiceImpl;
+import gr.hua.distributed.it21774.service.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private AppUserDetailsServiceImpl appUserDetailsServiceImpl;
+    private UserDetailsServiceImpl appUserDetailsServiceImpl;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 

@@ -24,13 +24,14 @@ public class Contract {
 
     @NotNull
     @Column(name = "date_created")
-    private String dateCreated;
+    private Long dateCreated;
 
     @Column(name = "date_approved")
-    private String dateApproved;
+    private Long dateApproved;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private ContractStatusEnum status;
 
     @OneToMany(mappedBy = "contract",
                fetch = FetchType.LAZY,
@@ -41,15 +42,15 @@ public class Contract {
 //    @JsonBackReference
 //    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
     @JsonIgnore
-    private List<AppUser> appUser;
+    private List<User> user;
 
     public Contract() {
     }
 
     public Contract(String text,
-                    String dateCreated,
-                    String dateApproved,
-                    String status) {
+                    Long dateCreated,
+                    Long dateApproved,
+                    ContractStatusEnum status) {
         this.text = text;
         this.dateCreated = dateCreated;
         this.dateApproved = dateApproved;
@@ -72,56 +73,56 @@ public class Contract {
         this.text = text;
     }
 
-    public String getDateCreated() {
+    public Long getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(String dateCreated) {
+    public void setDateCreated(Long dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public String getDateApproved() {
+    public Long getDateApproved() {
         return dateApproved;
     }
 
-    public void setDateApproved(String dateApproved) {
+    public void setDateApproved(Long dateApproved) {
         this.dateApproved = dateApproved;
     }
 
-    public String getStatus() {
+    public ContractStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ContractStatusEnum status) {
         this.status = status;
     }
 
-    public List<AppUser> getAppUser() {
-        return appUser;
+    public List<User> getUser() {
+        return user;
     }
 
-    public void setAppUser(List<AppUser> appUser) {
-        this.appUser = appUser;
+    public void setUser(List<User> user) {
+        this.user = user;
     }
 
-    public void addAppUsers(AppUser appUser) {
+    public void addUsers(User user) {
 
-        if (this.appUser == null) {
-            this.appUser = new ArrayList<>();
+        if (this.user == null) {
+            this.user = new ArrayList<>();
         }
 
-        this.appUser.add(appUser);
+        this.user.add(user);
 
-        appUser.setContract(this);
-        appUser.setAnswer("No");
+        user.setContract(this);
+        user.setAnswer("No");
     }
 
     public void detachUsers() {
-        for (AppUser tempUser : this.getAppUser()) {
+        for (User tempUser : this.getUser()) {
             tempUser.setContract(null);
             tempUser.setAnswer("");
         }
 
-        this.setAppUser(null);
+        this.setUser(null);
     }
 }

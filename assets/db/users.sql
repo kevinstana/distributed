@@ -1,4 +1,4 @@
-create table IF NOT exists app_user (
+create table IF NOT exists users (
     id bigserial PRIMARY KEY,
     afm varchar(9) unique not null,
     amka varchar(11) unique not null,
@@ -16,26 +16,26 @@ create table IF NOT exists role (
 );
 
 
-create table if not exists app_user_role (
-    app_user_id bigint not null,
+create table if not exists user_role (
+    user_id bigint not null,
     role_id bigint not null,
-    unique (app_user_id, role_id),
-    constraint fk_roles_user foreign key (app_user_id) references app_user(id),
+    unique (user_id, role_id),
+    constraint fk_roles_user foreign key (user_id) references users(id),
     constraint fk_roles_id foreign key (role_id) references role(id)
 );
 
 create table if not exists contract (
     id bigserial primary key ,
-    date_approved varchar(255),
-    date_created varchar(255) not null ,
+    date_approved bigserial,
+    date_created bigserial not null ,
     status varchar(255),
     text varchar(255) not null
 );
 
-alter table app_user add column contract_id bigint;
-alter table app_user add constraint fk_user_contract foreign key (contract_id) references contract(id);
+alter table users add column contract_id bigint;
+alter table users add constraint fk_user_contract foreign key (contract_id) references contract(id);
 
-INSERT INTO app_user (afm, amka, answer, email, first_name, last_name, password, username) VALUES
+INSERT INTO users (afm, amka, answer, email, first_name, last_name, password, username) VALUES
     ('111111111', '11111111111', null, 'admin@gmail.com', 'Kevin', 'Stana', '$2a$10$VwKas4ss8uuLL.YpbycfXeT52yMjOXMce3OJe9wotGL4MT/Juo7tS', 'admin');
 
 INSERT INTO role (role) VALUES
@@ -44,4 +44,4 @@ INSERT INTO role (role) VALUES
 ('ROLE_NOTARY'),
 ('ROLE_CLIENT');
 
-INSERT INTO app_user_role (app_user_id, role_id) VALUES (1, 1);
+INSERT INTO user_role (user_id, role_id) VALUES (1, 1);

@@ -1,7 +1,7 @@
 package gr.hua.distributed.it21774.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import gr.hua.distributed.it21774.entity.AppUser;
+import gr.hua.distributed.it21774.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class AppUserDetailsImpl implements UserDetails {
+public class UserDetailsImpl implements UserDetails {
 
 
     private Long id;
@@ -34,7 +34,7 @@ public class AppUserDetailsImpl implements UserDetails {
     private String amka;
 
 
-    public AppUserDetailsImpl(Long id,
+    public UserDetailsImpl(Long id,
                               String username,
                               String password,
                               Collection<? extends GrantedAuthority> authorities,
@@ -54,21 +54,21 @@ public class AppUserDetailsImpl implements UserDetails {
         this.amka = amka;
     }
 
-    public static AppUserDetailsImpl build(AppUser appUser) {
-        List<GrantedAuthority> authorities = appUser.getRoles().stream()
+    public static UserDetailsImpl build(User user) {
+        List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRole().name()))
                 .collect(Collectors.toList());
 
-        return new AppUserDetailsImpl(
-                appUser.getId(),
-                appUser.getUsername(),
-                appUser.getPassword(),
+        return new UserDetailsImpl(
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
                 authorities,
-                appUser.getEmail(),
-                appUser.getFirstName(),
-                appUser.getLastName(),
-                appUser.getAfm(),
-                appUser.getAmka()
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAfm(),
+                user.getAmka()
         );
 
     }
@@ -138,7 +138,7 @@ public class AppUserDetailsImpl implements UserDetails {
             return true;
         if (obj == null || getClass() != obj.getClass())
             return false;
-        AppUserDetailsImpl appUser = (AppUserDetailsImpl) obj;
+        UserDetailsImpl appUser = (UserDetailsImpl) obj;
         return Objects.equals(id, appUser.id);
     }
 

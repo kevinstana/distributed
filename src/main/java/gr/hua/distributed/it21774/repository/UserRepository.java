@@ -1,21 +1,21 @@
 package gr.hua.distributed.it21774.repository;
 
-import gr.hua.distributed.it21774.entity.AppUser;
+import gr.hua.distributed.it21774.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface AppUserRepository extends JpaRepository<AppUser, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<AppUser> findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
-    Optional<AppUser> findByAfm(String afm);
+    Optional<User> findByAfm(String afm);
 
-    Optional<AppUser> findByAmka(String amka);
+    Optional<User> findByAmka(String amka);
 
-    Optional<AppUser> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
     Boolean existsByUsername(String username);
 

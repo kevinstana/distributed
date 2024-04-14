@@ -1,8 +1,9 @@
 package gr.hua.distributed.it21774.controller;
 
 import gr.hua.distributed.it21774.config.JwtUtils;
-import gr.hua.distributed.it21774.entity.AppUser;
+import gr.hua.distributed.it21774.entity.User;
 import gr.hua.distributed.it21774.entity.Contract;
+import gr.hua.distributed.it21774.entity.ContractStatusEnum;
 import gr.hua.distributed.it21774.entity.ERole;
 import gr.hua.distributed.it21774.entity.Role;
 import gr.hua.distributed.it21774.payload.request.CreateContractRequest;
@@ -10,7 +11,7 @@ import gr.hua.distributed.it21774.payload.request.SignupOrUpdateRequest;
 import gr.hua.distributed.it21774.payload.response.ContractResponse;
 import gr.hua.distributed.it21774.payload.response.MessageResponse;
 import gr.hua.distributed.it21774.payload.response.PrefilledUserFormResponse;
-import gr.hua.distributed.it21774.repository.AppUserRepository;
+import gr.hua.distributed.it21774.repository.UserRepository;
 import gr.hua.distributed.it21774.repository.ContractRepository;
 import gr.hua.distributed.it21774.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class UserController {
 
     ContractRepository contractRepository;
 
-    AppUserRepository appUserRepository;
+    UserRepository userRepository;
 
     RoleRepository roleRepository;
 
@@ -43,12 +44,12 @@ public class UserController {
 
     @Autowired
     public UserController(ContractRepository contractRepository,
-                          AppUserRepository appUserRepository,
+                          UserRepository userRepository,
                           RoleRepository roleRepository,
                           PasswordEncoder encoder,
                           JwtUtils jwtUtils) {
         this.contractRepository = contractRepository;
-        this.appUserRepository = appUserRepository;
+        this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
@@ -57,7 +58,7 @@ public class UserController {
     @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAllUsers() {
-        return ResponseEntity.ok().body(appUserRepository.findAll());
+        return ResponseEntity.ok().body(userRepository.findAll());
     }
 
     @GetMapping("/{id}")
@@ -65,7 +66,7 @@ public class UserController {
                                      @PathVariable Long id) {
 
         Long requestingUserId = jwtUtils.getUserIdFromJwt(request);
-        AppUser requestingUser = appUserRepository.findById(requestingUserId).get();;
+        User requestingUser = userRepository.findById(requestingUserId).get();;
 
         boolean isAdmin = false;
         for (Role tempRole: requestingUser.getRoles()) {
@@ -80,10 +81,10 @@ public class UserController {
                     .body(new MessageResponse("You can't view another user's details"));
         }
 
-        AppUser resourceUser;
+        User resourceUser;
 
         try {
-            resourceUser = appUserRepository.findById(id).get();
+            resourceUser = userRepository.findById(id).get();
         }
         catch (NoSuchElementException e) {
             return ResponseEntity.badRequest()
@@ -111,25 +112,25 @@ public class UserController {
     public ResponseEntity<?> registerUser(
             @Valid @RequestBody SignupOrUpdateRequest signUpOrUpdateRequest) {
 
-        if (appUserRepository.existsByUsername(signUpOrUpdateRequest.getUsername())) {
+        if (userRepository.existsByUsername(signUpOrUpdateRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Username is already in use"));
         }
 
-        if (appUserRepository.existsByEmail(signUpOrUpdateRequest.getEmail())) {
+        if (userRepository.existsByEmail(signUpOrUpdateRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Email is already in use"));
         }
 
-        if (appUserRepository.existsByAfm(signUpOrUpdateRequest.getAfm())) {
+        if (userRepository.existsByAfm(signUpOrUpdateRequest.getAfm())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Afm is already in use"));
         }
 
-        if (appUserRepository.existsByAmka(signUpOrUpdateRequest.getAmka())) {
+        if (userRepository.existsByAmka(signUpOrUpdateRequest.getAmka())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Amka is already in use"));
@@ -158,7 +159,7 @@ public class UserController {
         }
 
         // Create new user's account
-        AppUser appUser = new AppUser(signUpOrUpdateRequest.getUsername(),
+        User user = new User(signUpOrUpdateRequest.getUsername(),
                 encoder.encode(signUpOrUpdateRequest.getPassword()),
                 signUpOrUpdateRequest.getEmail(),
                 signUpOrUpdateRequest.getFirstName(),
@@ -167,8 +168,8 @@ public class UserController {
                 signUpOrUpdateRequest.getAfm(),
                 signUpOrUpdateRequest.getAmka());
 
-        appUser.setId(0L);
-        appUserRepository.save(appUser);
+        user.setId(0L);
+        userRepository.save(user);
 
         return ResponseEntity.ok()
                 .body(new MessageResponse("User registered successfully"));
@@ -179,10 +180,10 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable Long id,
                                         @Valid @RequestBody SignupOrUpdateRequest signUpOrUpdateRequest) {
 
-        AppUser appUser;
+        User user;
 
         try {
-            appUser = appUserRepository.findById(id).get();
+            user = userRepository.findById(id).get();
         } catch (NoSuchElementException e) {
             return ResponseEntity
                     .badRequest()
@@ -190,7 +191,7 @@ public class UserController {
         }
 
         try {
-            AppUser existingUser = appUserRepository.findByUsername(signUpOrUpdateRequest.getUsername()).get();
+            User existingUser = userRepository.findByUsername(signUpOrUpdateRequest.getUsername()).get();
             if (existingUser.getId() != id) {
                 return ResponseEntity.badRequest()
                         .body(new MessageResponse("Username is already in use"));
@@ -199,7 +200,7 @@ public class UserController {
         }
 
         try {
-            AppUser existingUser = appUserRepository.findByEmail(signUpOrUpdateRequest.getEmail()).get();
+            User existingUser = userRepository.findByEmail(signUpOrUpdateRequest.getEmail()).get();
             if (existingUser.getId() != id) {
                 return ResponseEntity.badRequest()
                         .body(new MessageResponse("Email is already in use"));
@@ -222,7 +223,7 @@ public class UserController {
 
         // Check if afm and amka exist
         try {
-            AppUser existingUser = appUserRepository.findByAfm(signUpOrUpdateRequest.getAfm()).get();
+            User existingUser = userRepository.findByAfm(signUpOrUpdateRequest.getAfm()).get();
             if (existingUser.getId() != id) {
                 return ResponseEntity.badRequest()
                         .body(new MessageResponse("Afm is already in use"));
@@ -231,7 +232,7 @@ public class UserController {
         }
 
         try {
-            AppUser existingUser = appUserRepository.findByAmka(signUpOrUpdateRequest.getAmka()).get();
+            User existingUser = userRepository.findByAmka(signUpOrUpdateRequest.getAmka()).get();
             if (existingUser.getId() != id) {
                 return ResponseEntity.badRequest()
                         .body(new MessageResponse("Amka is already in use"));
@@ -257,10 +258,10 @@ public class UserController {
             signUpOrUpdateRequest.setPassword("");
         }
 
-        appUser.setUpdates(appUser, signUpOrUpdateRequest);
-        appUser.setRoles(roles);
+        user.setUpdates(user, signUpOrUpdateRequest);
+        user.setRoles(roles);
 
-        appUserRepository.save(appUser);
+        userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User updated"));
     }
@@ -269,12 +270,12 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 
-        AppUser appUser;
+        User user;
 
         try {
-            appUser = appUserRepository.findById(id).get();
+            user = userRepository.findById(id).get();
 
-            if (appUser.getContract() != null) {
+            if (user.getContract() != null) {
                 return ResponseEntity
                         .badRequest()
                         .body(new MessageResponse("Cannot delete user with active contract"));
@@ -285,14 +286,14 @@ public class UserController {
                     .body(new MessageResponse("User does not exist"));
         }
 
-        for (Role tempRole : appUser.getRoles()) {
+        for (Role tempRole : user.getRoles()) {
             if (tempRole.getRole().toString().equals("ROLE_ADMIN")) {
                 return ResponseEntity.badRequest()
                         .body(new MessageResponse("Can't delete admin"));
             }
         }
 
-        appUserRepository.deleteById(id);
+        userRepository.deleteById(id);
 
         return ResponseEntity.ok(new MessageResponse("User deleted"));
     }
@@ -309,7 +310,7 @@ public class UserController {
                     .body(new MessageResponse("You can't view another user's contract"));
         }
 
-        AppUser requestingUser = appUserRepository.findById(requestingUserId).get();
+        User requestingUser = userRepository.findById(requestingUserId).get();
 
         if (requestingUser.getContract() == null) {
             return ResponseEntity
@@ -319,9 +320,9 @@ public class UserController {
 
         Contract contract = requestingUser.getContract();
         List<String> membersAndAnswers = new ArrayList<>();
-        List<AppUser> users = contract.getAppUser();
+        List<User> users = contract.getUser();
 
-        for ( AppUser tempUser : users) {
+        for ( User tempUser : users) {
             membersAndAnswers.add(tempUser.getFirstName()
                     + " " + tempUser.getLastName() + ": "
                     +tempUser.getAnswer());
@@ -350,7 +351,7 @@ public class UserController {
                     .body(new MessageResponse("You can't create another user's contract"));
         }
 
-        AppUser requestingUser = appUserRepository.findById(requestingUserId).get();
+        User requestingUser = userRepository.findById(requestingUserId).get();
 
         if (requestingUser.getContract() != null) {
             return ResponseEntity
@@ -358,15 +359,10 @@ public class UserController {
                     .body(new MessageResponse("You already have a contract"));
         }
 
-        // Get the local time and assign it to a String
-        DateTimeFormatter dateTimeFormatter =
-                DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-
-        String dateCreated = dateTimeFormatter.format(now);
+        Long dateCreated = System.currentTimeMillis();
         String text = createContractRequest.getText();
 
-        Contract contract = new Contract(text, dateCreated, "", "In Progress");
+        Contract contract = new Contract(text, dateCreated, null, ContractStatusEnum.IN_PROGRESS);
         contract.setId(0L);
 
         for (String tempAfm : createContractRequest.getAfm()) {
@@ -390,10 +386,10 @@ public class UserController {
 
         for (String tempAfm : afm) {
 
-            AppUser contractMember;
+            User contractMember;
 
             try {
-                contractMember = appUserRepository.findByAfm(tempAfm).get();
+                contractMember = userRepository.findByAfm(tempAfm).get();
                 if (contractMember.getContract() != null) {
                     return ResponseEntity.badRequest()
                             .body(new MessageResponse(
@@ -426,7 +422,7 @@ public class UserController {
 
 
             // Associate contract to users
-            contract.addAppUsers(contractMember);
+            contract.addUsers(contractMember);
         }
 
         if (clientCount < 2 || lawyerCount < 2) {
@@ -452,7 +448,7 @@ public class UserController {
                     .body(new MessageResponse("You can't answer another user's contract"));
         }
 
-        AppUser requestingUser = appUserRepository.findById(id).get();
+        User requestingUser = userRepository.findById(id).get();
 
         if (requestingUser.getContract() == null) {
             return ResponseEntity
@@ -467,23 +463,23 @@ public class UserController {
         }
 
         requestingUser.setAnswer("Yes");
-        appUserRepository.save(requestingUser);
+        userRepository.save(requestingUser);
 
         Contract contract = requestingUser.getContract();
-        List<AppUser> contractMembers = contract.getAppUser();
+        List<User> contractMembers = contract.getUser();
 
         /*
         ΠΡΟΓΡΑΜΜΑΤΙΣΜΟΣ 1 incoming!!
         */
         int i = 0;
-        for (AppUser tempUser : contractMembers) {
+        for (User tempUser : contractMembers) {
             if (tempUser.getAnswer().equals("Yes")) {
                 i += 1;
             }
         }
 
         if (i == 4) {
-            contract.setStatus("Answered");
+            contract.setStatus(ContractStatusEnum.PENDING_APPROVAL);
             contractRepository.save(contract);
         }
 
