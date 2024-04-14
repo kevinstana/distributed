@@ -9,6 +9,7 @@ import gr.hua.distributed.it21774.entity.Role;
 import gr.hua.distributed.it21774.payload.request.CreateContractRequest;
 import gr.hua.distributed.it21774.payload.request.SignupOrUpdateRequest;
 import gr.hua.distributed.it21774.payload.response.ContractResponse;
+import gr.hua.distributed.it21774.payload.response.Member;
 import gr.hua.distributed.it21774.payload.response.MessageResponse;
 import gr.hua.distributed.it21774.payload.response.PrefilledUserFormResponse;
 import gr.hua.distributed.it21774.repository.UserRepository;
@@ -317,22 +318,23 @@ public class UserController {
         }
 
         Contract contract = requestingUser.getContract();
-        List<String> membersAndAnswers = new ArrayList<>();
+        List<Member> members = new ArrayList<>();
         List<User> users = contract.getUser();
 
         for ( User tempUser : users) {
-            membersAndAnswers.add(tempUser.getFirstName()
-                    + " " + tempUser.getLastName() + ": "
-                    +tempUser.getAnswer());
+            String fullName = tempUser.getFirstName() + " " + tempUser.getLastName();
+            String answer = tempUser.getAnswer();
+            members.add(new Member(fullName, answer));
         }
 
-        membersAndAnswers.add(requestingUser.getAnswer());
+        String requestingUserFullName = requestingUser.getFirstName() + " " + requestingUser.getLastName();
+        members.add(new Member(requestingUserFullName, requestingUser.getAnswer()));
 
         return ResponseEntity.ok(new ContractResponse(contract.getText(),
                 contract.getDateCreated(),
                 contract.getDateApproved(),
                 contract.getStatus(),
-                membersAndAnswers));
+                members));
     }
 
     @PostMapping("/{id}/contract")

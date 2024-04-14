@@ -5,6 +5,7 @@ import gr.hua.distributed.it21774.entity.User;
 import gr.hua.distributed.it21774.entity.Contract;
 import gr.hua.distributed.it21774.entity.ContractStatusEnum;
 import gr.hua.distributed.it21774.payload.response.ContractResponse;
+import gr.hua.distributed.it21774.payload.response.Member;
 import gr.hua.distributed.it21774.payload.response.MessageResponse;
 import gr.hua.distributed.it21774.repository.UserRepository;
 import gr.hua.distributed.it21774.repository.ContractRepository;
@@ -57,20 +58,20 @@ public class ContractController {
                     .body(new MessageResponse("Contract does not exist"));
         }
 
-        List<String> membersAndAnswers = new ArrayList<>();
+        List<Member> members = new ArrayList<>();
         List<User> users = contract.getUser();
 
         for (User tempUser : users) {
-            membersAndAnswers.add(tempUser.getFirstName()
-                    + " " + tempUser.getLastName() + ": "
-                    +tempUser.getAnswer());
+            String fullName = tempUser.getFirstName() + " " + tempUser.getLastName();
+            String answer = tempUser.getAnswer();
+            members.add(new Member(fullName, answer));
         }
 
         return ResponseEntity.ok(new ContractResponse(contract.getText(),
                 contract.getDateCreated(),
                 contract.getDateApproved(),
                 contract.getStatus(),
-                membersAndAnswers));
+                members));
     }
 
     @PutMapping("/{id}")

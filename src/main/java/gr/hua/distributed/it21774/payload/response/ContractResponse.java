@@ -14,7 +14,7 @@ public class ContractResponse {
 
     private ContractStatusEnum status;
 
-    private List<String> membersAndAnswers;
+    private List<Member> members;
 
     public ContractResponse() {
     }
@@ -23,12 +23,12 @@ public class ContractResponse {
                             Long dateCreated,
                             Long dateApproved,
                             ContractStatusEnum status,
-                            List<String> membersAndAnswers) {
+                            List<Member> members) {
         this.text = text;
         this.dateCreated = dateCreated;
         this.dateApproved = dateApproved;
         this.status = status;
-        this.membersAndAnswers = membersAndAnswers;
+        this.members = members;
     }
 
     public String getText() {
@@ -63,11 +63,11 @@ public class ContractResponse {
         this.status = status;
     }
 
-    public List<String> getMembers() {
-        return membersAndAnswers;
+    public List<Member> getMembers() {
+        return members;
     }
 
-    public void setMembers(List<String> membersAndAnswers) {
-        this.membersAndAnswers = membersAndAnswers;
+    public void setMembers(List<Member> members) {
+        this.members = members;
     }
 }
