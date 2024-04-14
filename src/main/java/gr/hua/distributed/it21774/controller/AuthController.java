@@ -67,14 +67,17 @@ public class AuthController {
 
             roles.replaceAll(role -> role.substring(5));
 
-            JwtResponse myJwt = new JwtResponse(jwt,
+            JwtResponse myJwt = new JwtResponse(
                     appUserDetails.getId(),
                     appUserDetails.getUsername(),
                     appUserDetails.getEmail(),
                     roles);
 
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Authorization", "Bearer " + myJwt.getAccessToken());
+            responseHeaders.set("Authorization", "Bearer " + jwt);
+
+            // expose the header
+            responseHeaders.set("Access-Control-Expose-Headers", "Authorization");
 
             return ResponseEntity.ok().headers(responseHeaders).body(myJwt);
 
