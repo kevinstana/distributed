@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -66,7 +64,7 @@ public class UserController {
                                      @PathVariable Long id) {
 
         Long requestingUserId = jwtUtils.getUserIdFromJwt(request);
-        User requestingUser = userRepository.findById(requestingUserId).get();;
+        User requestingUser = userRepository.findById(requestingUserId).get();
 
         boolean isAdmin = false;
         for (Role tempRole: requestingUser.getRoles()) {

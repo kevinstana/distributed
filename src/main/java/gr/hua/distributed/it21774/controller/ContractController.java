@@ -87,7 +87,7 @@ public class ContractController {
                     .body(new MessageResponse("Contract does not exist"));
         }
 
-        if (contract.getStatus().equals("Approved")) {
+        if (contract.getStatus().equals(ContractStatusEnum.APPROVED)) {
             return ResponseEntity.badRequest()
                     .body(new MessageResponse("You have already approved this contract"));
         }

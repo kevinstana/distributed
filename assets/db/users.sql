@@ -26,8 +26,8 @@ create table if not exists user_role (
 
 create table if not exists contract (
     id bigserial primary key ,
-    date_approved bigserial,
-    date_created bigserial not null ,
+    date_created bigint not null ,
+    date_approved bigint,
     status varchar(255),
     text varchar(255) not null
 );
