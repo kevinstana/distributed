@@ -16,7 +16,6 @@ import gr.hua.distributed.it21774.repository.UserRepository;
 import gr.hua.distributed.it21774.repository.ContractRepository;
 import gr.hua.distributed.it21774.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;

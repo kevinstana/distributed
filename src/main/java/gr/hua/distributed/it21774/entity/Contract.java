@@ -2,11 +2,8 @@ package gr.hua.distributed.it21774.entity;
 
 import com.fasterxml.jackson.annotation.*;
 
-import io.micrometer.core.lang.Nullable;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;

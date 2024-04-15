@@ -126,7 +126,7 @@ public class ContractController {
                     .body(new MessageResponse("Contract does not exist."));
         }
 
-        if (contract.getStatus().equals("Approved")) {
+        if (contract.getStatus().equals(ContractStatusEnum.APPROVED)) {
 
             contract.detachUsers();
             contractRepository.deleteById(id);
