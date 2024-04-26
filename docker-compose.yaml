@@ -31,24 +31,18 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=password
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9090/actuator/health"]
-      interval: 30s
-      timeout: 30s
+      test: ["CMD", "curl", "-f", "http://localhost:9090/api/actuator/health"]
+      interval: 5s
+      timeout: 5s
       retries: 3
 
-#   frontend:
-#     #image: front
-#     build:
-#       context: https://github.com/gkoulis/ds-lab-2023-frontend.git#env
-#       #context: git@github.com:gkoulis/ds-lab-2023-frontend.git#env
-#       #dockerfile: Dockerfile
-#     environment:
-#       - VITE_BACKEND=http://spring:9090
-#     ports:
-#       - 9000:80
-#     depends_on:
-#       spring:
-#         condition: service_healthy
+  frontend:
+    image: "ghcr.io/kevinstana/devops-frontend"
+    ports:
+      - 9000:80
+    depends_on:
+      spring:
+        condition: service_healthy
 
 
 volumes:

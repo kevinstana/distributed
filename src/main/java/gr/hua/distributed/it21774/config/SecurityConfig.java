@@ -54,6 +54,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests()
+                        .antMatchers("/actuator/health").permitAll()
                         .antMatchers("/login").permitAll()
                         .antMatchers("/users").hasRole("ADMIN")
                         .antMatchers(HttpMethod.GET, "/users/{id}").hasAnyRole("ADMIN", "LAWYER", "CLIENT", "NOTARY")
