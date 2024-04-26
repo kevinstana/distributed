@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:14
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=it21774_distributed
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - './assets/db:/docker-entrypoint-initdb.d'
+      - 'pgdata14:/var/lib/postgresql/data'
+  spring:
+    image: "ghcr.io/kevinstana/devops-backend"
+    ports:
+      - "8080:9090"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/it21774_distributed
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/actuator/health"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+#   frontend:
+#     #image: front
+#     build:
+#       context: https://github.com/gkoulis/ds-lab-2023-frontend.git#env
+#       #context: git@github.com:gkoulis/ds-lab-2023-frontend.git#env
+#       #dockerfile: Dockerfile
+#     environment:
+#       - VITE_BACKEND=http://spring:9090
+#     ports:
+#       - 9000:80
+#     depends_on:
+#       spring:
+#         condition: service_healthy
+
+
+volumes:
+    pgdata14:
