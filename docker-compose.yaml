@@ -20,7 +20,7 @@ services:
       - './assets/db:/docker-entrypoint-initdb.d'
       - 'pgdata14:/var/lib/postgresql/data'
   spring:
-    image: "ghcr.io/kevinstana/devops-backend"
+    image: "ghcr.io/kevinstana/devops-backend:latest"
     ports:
       - "8080:9090"
     depends_on:
@@ -37,7 +37,9 @@ services:
       retries: 3
 
   frontend:
-    image: "ghcr.io/kevinstana/devops-frontend"
+    image: "ghcr.io/kevinstana/devops-frontend:latest"
+    environment:
+      - BACKEND_URL=http://spring:9090
     ports:
       - 9000:80
     depends_on:
