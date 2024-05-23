@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
@@ -20,10 +21,12 @@ class It21774ApplicationTests {
 	private MockMvc mockMvc;
 	
 	@Test
+	@Order(1)
 	void contextLoads() {
 	}
 
 	@Test
+	@Order(2)
 	public void createUserTest() throws Exception {
 
 		// Login as admin to get jwt and create a new user
@@ -45,7 +48,11 @@ class It21774ApplicationTests {
 				.header("Authorization", jwt));
 
 		userResult.andExpect(status().isOk());
+	}
 
+	@Test
+	@Order(3)
+	public void newUserLoginTest() throws Exception {
 		// Login as the new user
 		String userLoginJson = "{\"username\":\"testuser\",\"password\":\"testpassword\"}";
 
