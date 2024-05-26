@@ -23,21 +23,7 @@ pipeline {
         //         sh './mvnw test'
         //     }
         // }
-        stage('run ansible pipeline') {
-            steps {
-                build job: 'ansible'
-            }
-        }
 
-        stage('Install project with docker compose') {
-                    steps {
-                        sh '''
-                            export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
-                            ansible-playbook -i ~/workspace/ansible/hosts.yaml -l docker ~/workspace/ansible/playbooks/spring-angular-docker.yaml
-                        '''
-                    }
-         }
-         
         stage('Docker build and push') {
             steps {
                 sh '''
@@ -49,5 +35,21 @@ pipeline {
                 '''
             }
         }
+
+        stage('run ansible pipeline') {
+            steps {
+                build job: 'ansible'
+            }
+        }
+
+        stage('Install project with docker compose') {
+            steps {
+                sh '''
+                    export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
+                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l docker ~/workspace/ansible/playbooks/spring-angular-docker.yaml
+                '''
+            }
+         }
+         
     }
 }
