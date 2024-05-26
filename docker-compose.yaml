@@ -22,7 +22,7 @@ services:
   spring:
     image: "ghcr.io/kevinstana/devops-backend:latest"
     ports:
-      - "8080:9090"
+      - "8081:9090"
     depends_on:
       db:
         condition: service_healthy
