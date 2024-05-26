@@ -7,11 +7,11 @@ pipeline {
                 git branch: 'main', url: 'git@github.com:kevinstana/distributed.git'
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         sh './mvnw test'
-        //     }
-        // }
+        stage('Test') {
+            steps {
+                sh './mvnw test'
+            }
+        }
         stage('run ansible pipeline') {
             steps {
                 build job: 'ansible'
@@ -45,7 +45,7 @@ pipeline {
                     # edit host var for appserver
 
                     export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
-                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l backend ~/workspace/ansible/playbooks/spring.yaml
+                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l backend -e db_url=13.94.118.26 ~/workspace/ansible/playbooks/spring.yaml
                 '''
             }
         }
@@ -53,7 +53,7 @@ pipeline {
             steps {
                 sh '''
                     export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
-                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l frontend ~/workspace/ansible/playbooks/angular.yaml
+                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l frontend -e backend_server_url=13.94.118.26:9090 ~/workspace/ansible/playbooks/angular.yaml
                 '''
             }
        }
