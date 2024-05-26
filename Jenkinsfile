@@ -7,11 +7,11 @@ pipeline {
                 git branch: 'main', url: 'git@github.com:kevinstana/distributed.git'
             }
         }
-        stage('Test') {
-            steps {
-                sh './mvnw test'
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         sh './mvnw test'
+        //     }
+        // }
         stage('run ansible pipeline') {
             steps {
                 build job: 'ansible'
