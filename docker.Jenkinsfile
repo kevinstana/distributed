@@ -23,6 +23,11 @@ pipeline {
         //         sh './mvnw test'
         //     }
         // }
+        stage('run ansible pipeline') {
+            steps {
+                build job: 'ansible'
+            }
+        }
         stage('Docker build and push') {
             steps {
                 sh '''
@@ -32,11 +37,6 @@ pipeline {
                     echo $DOCKER_TOKEN | docker login $DOCKER_SERVER -u $DOCKER_USER --password-stdin
                     docker push $DOCKER_PREFIX --all-tags
                 '''
-            }
-        }
-        stage('run ansible pipeline') {
-            steps {
-                build job: 'ansible'
             }
         }
         stage('Install project with docker compose') {
