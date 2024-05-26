@@ -1,5 +1,3 @@
--- This file is not needed for db initialization anymore. I left it for historical reasons.
-
 create table IF NOT exists users (
     id bigserial PRIMARY KEY,
     afm varchar(9) unique not null,
@@ -16,7 +14,6 @@ create table IF NOT exists role (
     id bigserial PRIMARY KEY,
     role varchar(20) unique not null
 );
-
 
 create table if not exists user_role (
     user_id bigint not null,
