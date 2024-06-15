@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  angular-deployment
+  namespace: default
+  labels:
+    app: angular
+spec:
+  selector:
+    matchLabels:
+      app: angular
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: angular
+    spec:
+      containers:
+      - name: angular
+        image: ghcr.io/kevinstana/devops-frontend:latest
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        ports:
+        - containerPort: 80
+          name:  vue
+      # imagePullSecrets:
+      # - name: registry-credentials

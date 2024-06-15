@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgres-deployment
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_DB
+              value: it21774_distributed
+          image: postgres:14
+          name: postgres
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-init-script
+              mountPath: /docker-entrypoint-initdb.d
+            - name: db-pvc
+              mountPath: /var/lib/postgresql/data
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+      volumes:
+        - name: postgres-init-script
+          configMap:
+            name: postgres-init-script
+        - name: db-pvc
+          persistentVolumeClaim:
+            claimName: db-pvc
