@@ -12,7 +12,3 @@ spec:
       storage: 100Mi
   accessModes:
     - ReadWriteOnce
-  # init:
-  #   script:
-  #     configMap:
-  #       name: db-init-script
