@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        EMAIL_TO = "it21774@hua.gr"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -50,6 +54,7 @@ pipeline {
                 '''
             }
        }
+    }
 
 
     post {
