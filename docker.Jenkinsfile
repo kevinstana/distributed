@@ -1,11 +1,12 @@
 pipeline {
     agent any
 
-    // options {
-    //     buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '30'))
-    // }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '30'))
+    }
 
     environment {
+        EMAIL_TO = "it21774@hua.gr"
         DOCKER_TOKEN = credentials('docker-push-secret')
         DOCKER_USER = 'kevinstana'
         DOCKER_SERVER = 'ghcr.io'
@@ -18,11 +19,12 @@ pipeline {
                 git branch: 'main', url: 'git@github.com:kevinstana/distributed.git'
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         sh './mvnw test'
-        //     }
-        // }
+
+        stage('Test') {
+            steps {
+                sh './mvnw test'
+            }
+        }
 
         stage('Docker build and push') {
             steps {

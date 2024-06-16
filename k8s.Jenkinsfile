@@ -19,11 +19,11 @@ pipeline {
                 git branch: 'main', url: 'git@github.com:kevinstana/distributed.git'
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         sh './mvnw test'
-        //     }
-        // }
+        stage('Test') {
+            steps {
+                sh './mvnw test'
+            }
+        }
         stage('Docker build and push') {
             steps {
                 sh '''
