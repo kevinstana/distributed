@@ -8,7 +8,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'git@github.com:kevinstana/distributed.git'
+                // git branch: 'main', url: 'git@github.com:kevinstana/distributed.git'
+                git branch: 'main', url: 'https://github.com/kevinstana/distributed.git'
             }
         }
         stage('Test') {
@@ -32,12 +33,6 @@ pipeline {
 
         stage('Deploy spring boot app') {
             steps {
-                sh '''
-                   # replace db in host_vars
-                    # sed -i 's/dbserver/4.211.249.239/g' ~/workspace/ansible/host_vars/appserver-vm.yaml
-                   # replace workingdir in host_vars
-                    # sed -i 's/vagrant/azureuser/g' ~/workspace/ansible/host_vars/appserver-vm.yaml
-                '''
                 sh '''
                     # edit host var for appserver
 
