@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: vue-ingress
+  name: angular-ingress
   annotations:
     ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
@@ -10,17 +10,17 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: "tsadimas-spring.ddns.net"
+  - host: "spring-devops.zapto.org"
     http:
       paths:
       - path: /
         pathType: ImplementationSpecific
         backend:
           service:
-            name: vue-svc
+            name: angular-svc
             port:
-              name: vue
+              name: angular
   tls:
   - hosts:
-    - tsadimas-spring.ddns.net
-    secretName: spring-production-certificate
+    - spring-devops.zapto.org
+    secretName: devops-production-certificate
