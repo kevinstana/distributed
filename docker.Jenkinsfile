@@ -49,7 +49,7 @@ pipeline {
             steps {
                 sh '''
                     export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
-                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l docker ~/workspace/ansible/playbooks/spring-angular-docker.yaml
+                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l docker-vm ~/workspace/ansible/playbooks/spring-angular-docker.yaml
                 '''
             }
          }
