@@ -95,7 +95,9 @@ public class UserController {
             strRoles.add(role.getRole().toString().substring(5));
         }
 
-        return ResponseEntity.ok().body(new PrefilledUserFormResponse(resourceUser.getUsername(),
+        return ResponseEntity.ok().body(new PrefilledUserFormResponse(
+                // resourceUser.getUsername(),
+                "12:38 AM NzkFK",
                 "",
                 resourceUser.getEmail(),
                 resourceUser.getFirstName(),
