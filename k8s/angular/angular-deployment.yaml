@@ -27,6 +27,6 @@ spec:
             memory: 512Mi
         ports:
         - containerPort: 80
-          name:  vue
+          name:  angular
       # imagePullSecrets:
       # - name: registry-credentials
