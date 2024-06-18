@@ -33,7 +33,7 @@ To run the job click on `Build with parameters`.
 ## Pipeline for deployment with Ansible - Docker
 1. Create a pipeline job.
 2. In the `General` section, select `This project is parameterized`.  
-3. Click on `Add parameter` and select `String parameter`. Name it `MY_EMAIL` with default value the he email you want to get notifications about the job.  
+3. Click on `Add parameter` and select `String parameter`. Name it `MY_EMAIL` with default value the email you want to get notifications about the job.  
 4. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
 5. In the `SCM` field select `Git`.  
 6. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
@@ -45,7 +45,7 @@ To run the job click on `Build with parameters`.
 ## Pipeline for Kubernetes deployment
 1. Create a pipeline job.
 2. In the `General` section, select `This project is parameterized`.
-3. Click on `Add parameter` and select `String parameter`. Name it `MY_EMAIL` with default value the he email you want to get notifications about the job.  
+3. Click on `Add parameter` and select `String parameter`. Name it `MY_EMAIL` with default value the email you want to get notifications about the job.  
 4. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
 5. In the `SCM` field select `Git`.  
 6. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
