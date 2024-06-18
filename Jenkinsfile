@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        EMAIL_TO = "it21774@hua.gr"
+        EMAIL_TO = ${MY_EMAIL}
     }
 
     stages {
