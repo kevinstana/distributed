@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        EMAIL_TO = ${MY_EMAIL}
+        EMAIL_TO = "${MY_EMAIL}"
     }
 
     stages {
