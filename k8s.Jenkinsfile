@@ -41,7 +41,6 @@ pipeline {
                 sh '''
                     HEAD_COMMIT=$(git rev-parse --short HEAD)
                     TAG=$HEAD_COMMIT-$BUILD_ID
-                    kubectl config use-context microk8s
                     kubectl set image deployment/spring-deployment spring=$DOCKER_PREFIX:$TAG
                     kubectl rollout status deployment spring-deployment --watch --timeout=2m
                 '''
