@@ -37,7 +37,8 @@ pipeline {
                     # edit host var for appserver
 
                     export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
-                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l backend -e db_url=13.94.118.26 ~/workspace/ansible/playbooks/spring.yaml
+                    # ansible-playbook -i ~/workspace/ansible/hosts.yaml -l backend -e db_url=13.94.118.26 ~/workspace/ansible/playbooks/spring.yaml
+                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l backend -e db_url=${DB_URL} ~/workspace/ansible/playbooks/spring.yaml
                 '''
             }
         }
@@ -45,7 +46,8 @@ pipeline {
             steps {
                 sh '''
                     export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
-                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l frontend -e backend_server_url=http://13.94.118.26:9090 ~/workspace/ansible/playbooks/angular.yaml
+                    # ansible-playbook -i ~/workspace/ansible/hosts.yaml -l frontend -e backend_server_url=http://13.94.118.26:9090 ~/workspace/ansible/playbooks/angular.yaml
+                    ansible-playbook -i ~/workspace/ansible/hosts.yaml -l frontend -e backend_server_url=${BACKEND_URL} ~/workspace/ansible/playbooks/angular.yaml
                 '''
             }
        }
