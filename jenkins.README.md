@@ -38,7 +38,7 @@ You can also change the `EMAIL_TO` variable to your email address to receive not
 5. In the branch field, enter `/main`.  
 6. In the `Script Path` field, type `docker.Jenkinsfile` and hit `Save`.
 
-Now hit build, pause it right after, and then hit replay. This allows you to edit the Jenkinsfile.  
+Now hit build, pause it right after, and then hit replay. This allows you to edit the docker.Jenkinsfile.  
 You can change the `EMAIL_TO` variable, and in case you don't have a github token to push docker images, you can comment the `Docker build and push` stage.  
 
 ## Pipeline for Kubernetes deployment
@@ -49,5 +49,5 @@ You can change the `EMAIL_TO` variable, and in case you don't have a github toke
 5. In the branch field, enter `/main`.  
 6. In the `Script Path` field, type `k8s.Jenkinsfile` and hit `Save`.  
 
-Now hit build, pause it right after, and then hit replay. This allows you to edit the Jenkinsfile.  
+Now hit build, pause it right after, and then hit replay. This allows you to edit the k8s.Jenkinsfile.  
 You can change the `EMAIL_TO` variable, and in case you don't have a github token to push docker images, you can comment the `Docker build and push` stage.  
