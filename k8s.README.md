@@ -103,7 +103,7 @@ kubectl create -f spring/spring-svc.yaml
 ```
 Deploy:
 ```bash
-kubectl create -f spring/deployment-svc.yaml
+kubectl create -f spring/spring-deployment.yaml
 ```
 
 ## Angular
