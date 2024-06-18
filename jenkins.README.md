@@ -17,26 +17,30 @@ This job will be used by other jobs. It clones a repo containing ansible playboo
 4. In the branch field, enter `/main` and press `Save`. That's it.  
 
 ## Pipeline for deployment with Ansible
-1. Create a pipeline job.  
-2. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
-3. In the `SCM` field select `Git`.  
-4. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.  
-5. In the branch field, enter `/main`.  
-6. In the `Script Path` field, type `Jenkinsfile` and hit `Save`.  
+1. Create a pipeline job.
+2. In the `General` section, select `This project is parameterized`.
+3. Click on `Add parameter` and select `String parameter`. Name it `DB_URL` with default value the URL of the machine the database runs on.  
+4. Add another string parameter. Name it `BACKEND_URL` with default value the URL (include http://) of the machine that spring runs on.
+5. Add another string parameter. Name it `MY_EMAIL` with default value the email you want to get notifications about the job.
+6. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
+7. In the `SCM` field select `Git`.  
+8. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.  
+9. In the branch field, enter `/main`.  
+10. In the `Script Path` field, type `Jenkinsfile` and hit `Save`.
 
-Now hit build, pause it right after, and then hit replay. This allows you to edit the Jenkinsfile.  
-In the `Deploy spring boot app` stage, change the value of `db_url` to the URL of the machine that the postgres database runs on.  
-In the `Deploy frontend` stage, change the value of `backend_server_url` to the URL of the machine that the spring boot app runs on. Make sure to write the port as well.  
-
-You can also change the `EMAIL_TO` variable to your email address to receive notifications about the job.  
+To run the job click on `Build with parameters`.    
 
 ## Pipeline for deployment with Ansible - Docker
-1. Create a pipeline job.  
-2. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
-3. In the `SCM` field select `Git`.  
-4. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
-5. In the branch field, enter `/main`.  
-6. In the `Script Path` field, type `docker.Jenkinsfile` and hit `Save`.
+1. Create a pipeline job.
+2. In the `General` section, select `This project is parameterized`.
+3. Click on `Add parameter` and select `String parameter`. Name it `DB_URL` with default value the URL of the machine the database runs on.  
+4. Add another string parameter. Name it `BACKEND_URL` with default value the URL (include http://) of the machine that spring runs on.
+5. Add another string parameter. Name it `MY_EMAIL` with default value the email you want to get notifications about the job.
+6. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
+7. In the `SCM` field select `Git`.  
+8. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
+9. In the branch field, enter `/main`.  
+10. In the `Script Path` field, type `docker.Jenkinsfile` and hit `Save`.
 
 Now hit build, pause it right after, and then hit replay. This allows you to edit the docker.Jenkinsfile.  
 You can change the `EMAIL_TO` variable, and in case you don't have a github token to push docker images, you can comment the `Docker build and push` stage.  
