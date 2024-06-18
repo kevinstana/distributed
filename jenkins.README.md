@@ -24,7 +24,9 @@ This job will be used by other jobs. It clones a repo containing ansible playboo
 5. In the branch field, enter `/main`.  
 6. In the `Script Path` field, type `Jenkinsfile` and hit `Save`.  
 
-pes gia tis metablhtes periballontos pou prepei na allaksei sto Jenkisfile
+Now go to `/workspace/<JOB_NAME>/distributed`. Open the Jenkinsfile with an editor.  
+In the `Deploy spring boot app` stage, change the value of `db_url` to the URL of the machine that the postgres database runs on.  
+In the `Deploy frontend` stage, change the value of `backend_server_url` to the URL of the machine that the spring boot app runs on. Make sure to write the port as well.  
 
 ## Pipeline for deployment with Ansible - Docker
 1. Create a pipeline job.  
