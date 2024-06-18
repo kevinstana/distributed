@@ -28,6 +28,8 @@ Now go to `/workspace/<JOB_NAME>/distributed`. Open the Jenkinsfile with an edit
 In the `Deploy spring boot app` stage, change the value of `db_url` to the URL of the machine that the postgres database runs on.  
 In the `Deploy frontend` stage, change the value of `backend_server_url` to the URL of the machine that the spring boot app runs on. Make sure to write the port as well.  
 
+You can also change the `EMAIL_TO` variable to your email address to receive notifications about the job.  
+
 ## Pipeline for deployment with Ansible - Docker
 1. Create a pipeline job.  
 2. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
@@ -36,10 +38,18 @@ In the `Deploy frontend` stage, change the value of `backend_server_url` to the 
 5. In the branch field, enter `/main`.  
 6. In the `Script Path` field, type `docker.Jenkinsfile` and hit `Save`.
 
+If you want to change the `EMAIL_TO` variable, go to `workspace/<JOB_NAME>/distributed` and open `docker.Jenkinsfile` with an editor.  
+
+In case you don't have a github token to push docker images, you can comment the `Docker build and push` stage.  
+
 ## Pipeline for Kubernetes deployment
 1. Create a pipeline job.  
 2. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
 3. In the `SCM` field select `Git`.  
 4. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
 5. In the branch field, enter `/main`.  
-6. In the `Script Path` field, type `k8s.Jenkinsfile` and hit `Save`.
+6. In the `Script Path` field, type `k8s.Jenkinsfile` and hit `Save`.  
+
+If you want to change the `EMAIL_TO` variable, go to `workspace/<JOB_NAME>/distributed` and open `docker.Jenkinsfile` with an editor.  
+
+In case you don't have a github token to push docker images, you can comment the `Docker build and push` stage.  
