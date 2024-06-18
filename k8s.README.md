@@ -72,7 +72,11 @@ Open the `~/.kube/config` file on your PC with an editor. Replace `127.0.0.1` in
 Below `cluster`, delete the entirety of `certificate-authority-data`. Replace it with `insecure-skip-tls-verify: true`.  
 As a final step, make sure port `16443` in the k8s machine is open.  
 # Deployment
-In your PC, clone the repo `https://github.com/kevinstana/distributed.git` and go to the `k8s` directory.  
+In your PC, clone the repo:
+```bash
+https://github.com/kevinstana/distributed.git
+```
+and go to the `k8s` directory.  
 
 ## Postgres
 Make a configmap:
