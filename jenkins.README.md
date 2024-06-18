@@ -38,7 +38,7 @@ You can also change the `EMAIL_TO` variable to your email address to receive not
 5. In the branch field, enter `/main`.  
 6. In the `Script Path` field, type `docker.Jenkinsfile` and hit `Save`.
 
-If you want to change the `EMAIL_TO` variable, go to `workspace/<JOB_NAME>/distributed` and open `docker.Jenkinsfile` with an editor.  
+If you want to change the `EMAIL_TO` variable, go to `/workspace/<JOB_NAME>/distributed` and open `docker.Jenkinsfile` with an editor.  
 
 In case you don't have a github token to push docker images, you can comment the `Docker build and push` stage.  
 
@@ -50,6 +50,6 @@ In case you don't have a github token to push docker images, you can comment the
 5. In the branch field, enter `/main`.  
 6. In the `Script Path` field, type `k8s.Jenkinsfile` and hit `Save`.  
 
-If you want to change the `EMAIL_TO` variable, go to `workspace/<JOB_NAME>/distributed` and open `docker.Jenkinsfile` with an editor.  
+If you want to change the `EMAIL_TO` variable, go to `/workspace/<JOB_NAME>/distributed` and open `docker.Jenkinsfile` with an editor.  
 
 In case you don't have a github token to push docker images, you can comment the `Docker build and push` stage.  
