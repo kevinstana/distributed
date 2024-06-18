@@ -120,3 +120,6 @@ kubectl create -f angular/angular-deployment.yaml
 ```bash
 kubectl create -f cert/cert-issuer.yaml
 ```
+
+Open a browser and navigare to the IP address of the k8s machine. You should see a login page.
+Credentials are admin password.
