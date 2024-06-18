@@ -32,26 +32,24 @@ To run the job click on `Build with parameters`.
 
 ## Pipeline for deployment with Ansible - Docker
 1. Create a pipeline job.
-2. In the `General` section, select `This project is parameterized`.
-3. Click on `Add parameter` and select `String parameter`. Name it `DB_URL` with default value the URL of the machine the database runs on.  
-4. Add another string parameter. Name it `BACKEND_URL` with default value the URL (include http://) of the machine that spring runs on.
-5. Add another string parameter. Name it `MY_EMAIL` with default value the email you want to get notifications about the job.
-6. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
-7. In the `SCM` field select `Git`.  
-8. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
-9. In the branch field, enter `/main`.  
-10. In the `Script Path` field, type `docker.Jenkinsfile` and hit `Save`.
+2. In the `General` section, select `This project is parameterized`.  
+3. Click on `Add parameter` and select `String parameter`. Name it `MY_EMAIL` with default value the he email you want to get notifications about the job.  
+4. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
+5. In the `SCM` field select `Git`.  
+6. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
+7. In the branch field, enter `/main`.  
+8. In the `Script Path` field, type `docker.Jenkinsfile` and hit `Save`.
 
-Now hit build, pause it right after, and then hit replay. This allows you to edit the docker.Jenkinsfile.  
-You can change the `EMAIL_TO` variable, and in case you don't have a github token to push docker images, you can comment the `Docker build and push` stage.  
+To run the job click on `Build with parameters`.   
 
 ## Pipeline for Kubernetes deployment
-1. Create a pipeline job.  
-2. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
-3. In the `SCM` field select `Git`.  
-4. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
-5. In the branch field, enter `/main`.  
-6. In the `Script Path` field, type `k8s.Jenkinsfile` and hit `Save`.  
+1. Create a pipeline job.
+2. In the `General` section, select `This project is parameterized`.
+3. Click on `Add parameter` and select `String parameter`. Name it `MY_EMAIL` with default value the he email you want to get notifications about the job.  
+4. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
+5. In the `SCM` field select `Git`.  
+6. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
+7. In the branch field, enter `/main`.  
+8. In the `Script Path` field, type `k8s.Jenkinsfile` and hit `Save`.  
 
-Now hit build, pause it right after, and then hit replay. This allows you to edit the k8s.Jenkinsfile.  
-You can change the `EMAIL_TO` variable, and in case you don't have a github token to push docker images, you can comment the `Docker build and push` stage.  
+To run the job click on `Build with parameters`.   
