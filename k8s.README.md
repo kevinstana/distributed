@@ -73,10 +73,7 @@ Below `cluster`, delete the entirety of `certificate-authority-data`. Replace it
 As a final step, make sure port `16443` in the k8s machine is open.  
 # Deployment
 In your PC, clone the repo `https://github.com/kevinstana/distributed.git` and go to the `k8s` directory.  
-## Certificate
-```bash
-kubectl create -f cert/cert-issuer.yaml
-```
+
 ## Postgres
 Make a configmap:
 ```bash
@@ -94,6 +91,7 @@ Deploy:
 ```bash
 kubectl create -f postgres/postgres-deployment.yaml
 ```
+
 ## Spring
 Create spring service:
 ```bash
@@ -103,6 +101,7 @@ Deploy:
 ```bash
 kubectl create -f spring/deployment-svc.yaml
 ```
+
 ## Angular
 Create angular service:
 ```bash
@@ -115,4 +114,9 @@ kubectl create -f angular/angular-ingress-tls.yaml
 Deploy:
 ```bash
 kubectl create -f angular/angular-deployment.yaml
+```
+
+## Certificate
+```bash
+kubectl create -f cert/cert-issuer.yaml
 ```
