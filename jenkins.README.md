@@ -1,4 +1,4 @@
-# Configuring jenkins machine
+# Configuring the jenkins machine
 The Jenkinsfile will run ansible playbooks. The `ansible_hosts` must be the same as the hosts in the `.ssh/config` file of the `jenkins user`.  
 To gain access as the jenkins user, run the following commands:  
 ```bash
