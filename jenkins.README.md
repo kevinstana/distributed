@@ -25,7 +25,7 @@ First create a pipeline job. Then do the following:
 
 ![test](https://github.com/kevinstana/distributed/assets/122367928/115dd3a7-046d-41d9-a0b3-7d4e206d17ee)  
   
-Create another two string parameters  
+Create another two string parameters. The `BACKEND_SERVER_URL` must include the `http://` part.    
 
 ![testt](https://github.com/kevinstana/distributed/assets/122367928/8f3c6ae1-b23e-405f-8644-5de3a17c8b14)  
 
