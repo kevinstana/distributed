@@ -36,7 +36,7 @@ chmod 700 get_helm.sh
 
 ./get_helm.sh
 ```
-### install cert-manager
+### Ιnstall cert-manager
 
 ```bash
 helm repo add jetstack https://charts.jetstack.io --force-update
