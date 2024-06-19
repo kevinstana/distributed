@@ -1,8 +1,5 @@
 Project for the Distributed Systems course
 =======
-# distributed
-Project for Distributed Systems course
-
 ## Download the repository
 ### *Option 1*
 1. Download the .zip file  
