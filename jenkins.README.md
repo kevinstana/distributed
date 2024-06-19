@@ -13,43 +13,48 @@ This job will be used by other jobs. It clones a repo containing ansible playboo
 
 1. Create a freestyle job.
 2. Select `Git` from Source Code Management.  
-3. Enter the URL of the repository: `https://github.com/kevinstana/devops-ansible.git`. The repo is public so no credentials are required.  
-4. In the branch field, enter `/main` and press `Save`. That's it.  
+3. Enter the URL of the repository:
+```bash
+https://github.com/kevinstana/devops-ansible.git
+``` 
+
+In the branch field, enter `/main` and press `Save`. That's it.  
 
 ## Pipeline for deployment with Ansible
-1. Create a pipeline job.
-2. In the `General` section, select `This project is parameterized`.
-3. Click on `Add parameter` and select `String parameter`. Name it `DB_URL` with default value the URL of the machine the database runs on.  
-4. Add another string parameter. Name it `BACKEND_URL` with default value the URL (include http://) of the machine that spring runs on.
-5. Add another string parameter. Name it `MY_EMAIL` with default value the email you want to get notifications about the job.
-6. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
-7. In the `SCM` field select `Git`.  
-8. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.  
-9. In the branch field, enter `/main`.  
-10. In the `Script Path` field, type `Jenkinsfile` and hit `Save`.
+First create a pipeline job. Then do the following:  
+
+![test](https://github.com/kevinstana/distributed/assets/122367928/115dd3a7-046d-41d9-a0b3-7d4e206d17ee)  
+  
+Create another two string parameters  
+
+![testt](https://github.com/kevinstana/distributed/assets/122367928/8f3c6ae1-b23e-405f-8644-5de3a17c8b14)  
+
+Then:  
+```bash
+https://github.com/kevinstana/distributed.git
+```
+
+![testtt](https://github.com/kevinstana/distributed/assets/122367928/db92bbe5-4936-4fc5-b971-b13b938047e4)  
+
+![testttt](https://github.com/kevinstana/distributed/assets/122367928/9827f78b-1aaf-4525-94e3-2fa772bc16f4)  
+
 
 To run the job click on `Build with parameters`.    
 
 ## Pipeline for deployment with Ansible - Docker
-1. Create a pipeline job.
-2. In the `General` section, select `This project is parameterized`.  
-3. Click on `Add parameter` and select `String parameter`. Name it `MY_EMAIL` with default value the email you want to get notifications about the job.  
-4. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
-5. In the `SCM` field select `Git`.  
-6. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
-7. In the branch field, enter `/main`.  
-8. In the `Script Path` field, type `docker.Jenkinsfile` and hit `Save`.
+First create a pipeline job.  
+
+Then follow the steps from the previous images BUT only create one string parameter, the MY_EMAIL, and make sure to write `docker.Jenkinsfile` instead of `Jenkinsfile` in the Script Path.  
+
+Don't forget the token to push docker images (docker-push-secret, as secret text).  
 
 To run the job click on `Build with parameters`.   
 
 ## Pipeline for Kubernetes deployment
-1. Create a pipeline job.
-2. In the `General` section, select `This project is parameterized`.
-3. Click on `Add parameter` and select `String parameter`. Name it `MY_EMAIL` with default value the email you want to get notifications about the job.  
-4. In the `Definition` field under `Pipeline`, select `Pipeline script from SCM`.  
-5. In the `SCM` field select `Git`.  
-6. Enter the URL of the repository: `https://github.com/kevinstana/distributed.git`. The repo is public so no credentials are required.
-7. In the branch field, enter `/main`.  
-8. In the `Script Path` field, type `k8s.Jenkinsfile` and hit `Save`.  
+First create a pipeline job.  
 
-To run the job click on `Build with parameters`.   
+Then follow the steps from the previous images BUT only create one string parameter, the MY_EMAIL, and make sure to write `k8s.Jenkinsfile` instead of `Jenkinsfile` in the Script Path.  
+
+Don't forget the token to push docker images (docker-push-secret, as secret text).  
+
+To run the job click on `Build with parameters`. 
