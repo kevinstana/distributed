@@ -1,4 +1,4 @@
-# Configuring k8s machine
+# Configuring the k8s machine
 In the machine you want to deploy the app, make sure to download microk8s:
 ```bash
 sudo snap install microk8s --classic
