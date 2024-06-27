@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        EMAIL_TO = "${MY_EMAIL}"
+        EMAIL_TO = 'it21774@hua.gr'
         DOCKER_TOKEN = credentials('docker-push-secret')
         DOCKER_USER = 'kevinstana'
         DOCKER_SERVER = 'ghcr.io'
