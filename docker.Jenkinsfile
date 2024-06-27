@@ -6,11 +6,11 @@ pipeline {
     }
 
     environment {
-        EMAIL_TO = "${MY_EMAIL}"
+        EMAIL_TO = 'it21774@hua.gr'
         DOCKER_TOKEN = credentials('docker-push-secret')
-        DOCKER_USER = "${MY_DOCKER_USER}"
-        DOCKER_SERVER = "${MY_DOCKER_SERVER}"
-        DOCKER_PREFIX = "${MY_DOCKER_PREFIX}"
+        DOCKER_USER = 'kevinstana'
+        DOCKER_SERVER = 'ghcr.io'
+        DOCKER_PREFIX = 'ghcr.io/kevinstana/devops-backend'
     }
 
     stages {
