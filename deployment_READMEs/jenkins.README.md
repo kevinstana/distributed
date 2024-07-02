@@ -8,7 +8,7 @@ cd
 With `cd` we go to the home directory of the jenkins user.  
 Now the `.ssh/config` file can be modified accordingly.
 # Creating jenkins jobs
-## Ansible job
+## Ansible job (required for the pipelines to work)
 This job will be used by other jobs. It clones a repo containing ansible playbooks.  
 
 1. Create a freestyle job.
