@@ -113,7 +113,7 @@ Create angular service:
 ```bash
 kubectl create -f angular/angular-svc.yaml
 ```
-Create angular ingress:
+Create angular ingress (basically an nginx conf):
 ```bash
 kubectl create -f angular/angular-ingress-tls.yaml
 ```
