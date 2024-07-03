@@ -34,5 +34,9 @@ https://github.com/kevinstana/distributed.git
 ## Pipeline for deployment with Ansible - Docker
 Create a pipeline job. Then follow the steps from the ansible pipeline but write `docker.Jenkinsfile` instead of `Jenkinsfile` in the Script Path.  
 
-## Pipeline for Kubernetes deployment
+## Pipeline for Kubernetes deploymen
+This scenario assumes the app is already running on a cluster.  
+
+If the Jenkins machine doesn't have kubectl, follow the instructions [here](https://github.com/kevinstana/distributed/blob/main/deployment_READMEs/k8s.README.md).  
+
 Create a pipeline job. Then follow the steps from the ansible pipeline but write `k8s.Jenkinsfile` instead of `Jenkinsfile` in the Script Path.
